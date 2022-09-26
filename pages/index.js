@@ -8,8 +8,8 @@ export default function Home() {
     return (
         <div className={styles.container}>
             <Head>
-                <title>Smart Contract Lottery</title>
-                <meta name="description" content="Our Smart Contract Lottery" />
+                <title>Verdomi</title>
+                <meta name="description" content="Verdomi" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             {/*<ManualHeader />*/}
