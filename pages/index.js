@@ -12,8 +12,6 @@ export default function Home() {
                 <meta name="description" content="Verdomi" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            {/*<ManualHeader />*/}
-            <Header />
             <LotteryEntrance />
             {/* header / connect button / nav bar*/}
         </div>
