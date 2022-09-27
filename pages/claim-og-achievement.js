@@ -5,6 +5,7 @@ import { Form, useNotification, Button } from "web3uikit"
 import { useMoralis, useWeb3Contract } from "react-moralis"
 import { ethers } from "ethers"
 import ogClaimerAbi from "../constants/ogClaimerAbi.json"
+import og_achievement from "../images/og_achievement.png"
 
 export default function Home() {
     const { chainId, account } = useMoralis()
@@ -25,6 +26,7 @@ export default function Home() {
     return (
         <div className={styles.container}>
             <div className={styles.center}>
+                <Image src={og_achievement} width={500} height={500} />
                 <Button
                     text="Claim OG Achievement"
                     onClick={claimAchievement}
@@ -32,6 +34,7 @@ export default function Home() {
                     theme="primary"
                 />
             </div>
+            <div className={styles.center}></div>
         </div>
     )
 }
