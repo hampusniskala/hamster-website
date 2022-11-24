@@ -1,5 +1,6 @@
 .container {
     padding: 0 2rem;
+    align-items: center;
 }
 
 .main {
@@ -115,6 +116,7 @@
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    align-items: center;
 }
 
 @media (max-width: 600px) {
