@@ -9,7 +9,7 @@ import { ethers } from "ethers"
 import styles from "../styles/Home.module.css"
 import egyptians_preview from "../images/egyptians_preview.gif"
 
-export default function PaidGeneralBox({ price, nftAddress, tokenId }) {
+export default function PaidGeneralBox() {
     const { isWeb3Enabled, account, chainId } = useMoralis()
     const dispatch = useNotification()
     const [amountText, setAmountText] = useState("")
