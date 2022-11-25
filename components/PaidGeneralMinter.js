@@ -22,7 +22,7 @@ export default function PaidGeneralBox({ price, nftAddress, tokenId }) {
 
     // General minter
     const chainString = chainId ? parseInt(chainId).toString() : "31337"
-    const generalMinterAddress = "0xfa20dB2c3C45f0925789ABD8682Fec53f9213A22"
+    const generalMinterAddress = "0xF1F51b1755a4cC627764ec62c8D2D2f4Ab765b00"
 
     const { runContractFunction: getPriceForOne } = useWeb3Contract({
         abi: generalMinterAbi,

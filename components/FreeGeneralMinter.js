@@ -7,59 +7,21 @@ import Image from "next/image"
 import { Avatar, useNotification, Dropdown, Input, Button } from "web3uikit"
 import egyptians_preview from "../images/egyptians_preview.gif"
 
-import { ethers } from "ethers"
 import styles from "../styles/Home.module.css"
-import og_achievement from "../images/og_achievement.png"
 
-const truncateStr = (fullStr, strLen) => {
-    if (fullStr.length <= strLen) return fullStr
-
-    const separator = "..."
-    let separatorLength = separator.length
-    const charsToShow = strLen - separatorLength
-    const frontChars = Math.ceil(charsToShow / 2)
-    const backChars = Math.floor(charsToShow / 2)
-    return (
-        fullStr.substring(0, frontChars) + separator + fullStr.substring(fullStr.length - backChars)
-    )
-}
-
-export default function FreeGeneralBox({ price, nftAddress, tokenId }) {
+export default function FreeGeneralBox() {
     const { isWeb3Enabled, account, chainId } = useMoralis()
-    const [imageURI, setImageURI] = useState("")
-    const [tokenName, setTokenName] = useState("")
-    const [tokenDescription, setTokenDescription] = useState("")
-    const [showModal, setShowModal] = useState(false)
+
+    const [selectedCollection, setSelectedCollection] = useState("")
+
     const hideModal = () => setShowModal(false)
     const dispatch = useNotification()
 
     // General minter
     const chainString = chainId ? parseInt(chainId).toString() : "31337"
-    const generalMinterAddress = "0xfa20dB2c3C45f0925789ABD8682Fec53f9213A22"
+    const generalMinterAddress = "0xF1F51b1755a4cC627764ec62c8D2D2f4Ab765b00"
 
-    const { runContractFunction: getTokenURI } = useWeb3Contract({
-        abi: nftAbi,
-        contractAddress: nftAddress,
-        functionName: "tokenURI",
-        params: {
-            tokenId: tokenId,
-        },
-    })
-
-    async function updateUI() {
-        const tokenURI = await getTokenURI()
-        // const tokenURI = "ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/10"
-        console.log(`The TokenURI is ${tokenURI}`)
-        if (tokenURI) {
-            const requestURL = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
-            const tokenURIResponse = await (await fetch(requestURL)).json()
-            const imageURI = tokenURIResponse.image
-            const imageURIURL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
-            setImageURI(imageURIURL)
-            setTokenName(tokenURIResponse.name)
-            setTokenDescription(tokenURIResponse.description)
-        }
-    }
+    async function updateUI() {}
 
     useEffect(() => {
         if (isWeb3Enabled) {
@@ -67,36 +29,34 @@ export default function FreeGeneralBox({ price, nftAddress, tokenId }) {
         }
     }, [isWeb3Enabled])
 
-    const handleBuyItemSuccess = async (tx) => {
-        await tx.wait(1)
-        dispatch({
-            type: "success",
-            message: "Item bought!",
-            title: "Item Bought",
-            position: "topR",
-        })
-    }
-
     const { runContractFunction } = useWeb3Contract()
 
-    async function claimFreeMint(data) {
+    async function claimFreeMint(_amount, _collection, _vault) {
         console.log("Claiming free mint...")
-        const _amount = parseInt(data.data[0].inputResult)
+        _amount = parseInt(_amount)
         let _vaultAddress = "0x0000000000000000000000000000000000000000"
-        if (data.data[2].inputResult != "") {
-            _vaultAddress = data.data[2].inputResult
+        if (_vault != "") {
+            _vaultAddress = _vault
         }
 
         let _freeMintAddress
 
-        if (data.data[1].inputResult == "Bloot") {
+        if (_collection == "Bloot") {
             _freeMintAddress = "0x4F8730E0b32B04beaa5757e5aea3aeF970E5B613"
-        } else if (data.data[1].inputResult == "PVFD") {
+        } else if (_collection == "PVFD") {
             _freeMintAddress = "0xd0A07a76746707f6D6d36D9d5897B14a8e9ED493"
-        } else if (data.data[1].inputResult == "Legend-X") {
+        } else if (_collection == "Legend-X") {
             _freeMintAddress = "0xd433F1601574B2288c32E60cCD2423384fCFd699"
+        } else if (_collection == "Kiko Bakes") {
+            _freeMintAddress = "0x745735600DCf9562060BEcDAE9A1a0AFfFcd9Cf6"
+        } else if (_collection == "Kiko's Mystics") {
+            _freeMintAddress = "0xe6D115a05A6483B9969e97553ed23111705AFb57"
+        } else if (_collection == "Swaggy Cows") {
+            _freeMintAddress = "0x398A5b355658Df4a836c9250FCe6F0A0fC0c9EA0"
+            // BasicNft Address on goerli
+            //_freeMintAddress = "0xcBb0A6C5Dae791c043efb306fB6b5460Aa25CC71"
         } else {
-            _freeMintAddress = "0xcBb0A6C5Dae791c043efb306fB6b5460Aa25CC71"
+            _freeMintAddress = ""
         }
 
         const freeMintOptions = {
@@ -134,6 +94,10 @@ export default function FreeGeneralBox({ price, nftAddress, tokenId }) {
                 position: "topR",
             })
         }
+    }
+
+    async function handleCollectionSelect(collection) {
+        setSelectedCollection(collection)
     }
 
     return (
@@ -184,9 +148,9 @@ export default function FreeGeneralBox({ price, nftAddress, tokenId }) {
                                     <div className="py-2">
                                         <p>Select the collection you own</p>
                                         <Dropdown
-                                            onChange={function noRefCheck() {}}
+                                            onChange={(e) => handleCollectionSelect(e.id)}
                                             onComplete={function noRefCheck() {}}
-                                            id="collectionInput"
+                                            id="inputCollection"
                                             label="Collection: "
                                             options={[
                                                 {
@@ -218,7 +182,7 @@ export default function FreeGeneralBox({ price, nftAddress, tokenId }) {
                                                     ),
                                                 },
                                                 {
-                                                    id: "LegendX",
+                                                    id: "Legend-X",
                                                     label: "Legend-X",
                                                     prefix: (
                                                         <Avatar
@@ -232,7 +196,7 @@ export default function FreeGeneralBox({ price, nftAddress, tokenId }) {
                                                     ),
                                                 },
                                                 {
-                                                    id: "KikoBakes",
+                                                    id: "Kiko Bakes",
                                                     label: "Kiko Bakes",
                                                     prefix: (
                                                         <Avatar
@@ -246,7 +210,21 @@ export default function FreeGeneralBox({ price, nftAddress, tokenId }) {
                                                     ),
                                                 },
                                                 {
-                                                    id: "SwaggyCows",
+                                                    id: "Kiko's Mystics",
+                                                    label: "Kiko's Mystics",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={3}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gcs/files/b78d14aec8e2a7193bfdcab112db95e8.jpg?auto=format&w=3840"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "Swaggy Cows",
                                                     label: "Swaggy Cows",
                                                     prefix: (
                                                         <Avatar
@@ -298,7 +276,13 @@ export default function FreeGeneralBox({ price, nftAddress, tokenId }) {
                                         <Button
                                             label="mintButton"
                                             text="Mint"
-                                            onClick={function noRefCheck() {}}
+                                            onClick={() =>
+                                                claimFreeMint(
+                                                    inputAmount.value,
+                                                    selectedCollection,
+                                                    inputVault.value
+                                                )
+                                            }
                                             theme="primary"
                                         />
                                     </div>
