@@ -106,11 +106,6 @@ export default function PaidGeneralBox({ price, nftAddress, tokenId }) {
                                 blockchain game! Thanks to Chainlink oracles, the price will always
                                 be just $9!
                             </p>
-                            <p className="py-2 font-bold text-l">
-                                IMPORTANT: The NFTs will not become tradeable until all 2,000 have
-                                been minted. (This requires at least 500 of them to be minted at the
-                                cost of $9)
-                            </p>
                             <p className="py-2">
                                 There are 2,000 Egyptains in total. Of these, 1,000 are male and
                                 1,000 are female. There are also two 1/1 Egyptian GODS! (one female
@@ -139,8 +134,8 @@ export default function PaidGeneralBox({ price, nftAddress, tokenId }) {
                                         key="_amount"
                                         onChange={() => updateUI()}
                                         validation={{
-                                            max: 20,
-                                            min: 1,
+                                            numberMax: 20,
+                                            numberMin: 1,
                                         }}
                                     />
                                 </div>
@@ -157,11 +152,6 @@ export default function PaidGeneralBox({ price, nftAddress, tokenId }) {
                                         onClick={() => mintGeneral(inputAmount.value)}
                                         theme="primary"
                                     />
-                                    <p className="text-xs">
-                                        By clicking the Mint button you confirm that you understand
-                                        that tradeability of the NFTs will unlock once all 2,000
-                                        have been minted.
-                                    </p>
                                 </div>
                             </div>
                             {/* Paid mint ends here */}

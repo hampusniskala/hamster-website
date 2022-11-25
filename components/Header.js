@@ -10,10 +10,10 @@ export default function Header() {
             <Image src={verdomi_text} width={546 / 2} height={92 / 2} />
             <div className="flex flex-row items-center">
                 <Link href="/">
-                    <a className="mr-4 p-6">Home</a>
+                    <a className="mr-4 p-6">Mint</a>
                 </Link>
-                <Link href="/claim-og-achievement">
-                    <a className="mr-4 p-6">Claim OG Achievement</a>
+                <Link href="/free-general-claim">
+                    <a className="mr-4 p-6">Free Claim</a>
                 </Link>
                 <ConnectButton moralisAuth={false} />
             </div>

@@ -4,7 +4,9 @@ import generalMinterAbi from "../constants/GeneralMinter.json"
 import { ConnectButton } from "web3uikit"
 import nftAbi from "../constants/BasicNft.json"
 import Image from "next/image"
-import { Card, useNotification, Form } from "web3uikit"
+import { Avatar, useNotification, Dropdown, Input, Button } from "web3uikit"
+import egyptians_preview from "../images/egyptians_preview.gif"
+
 import { ethers } from "ethers"
 import styles from "../styles/Home.module.css"
 import og_achievement from "../images/og_achievement.png"
@@ -141,39 +143,173 @@ export default function FreeGeneralBox({ price, nftAddress, tokenId }) {
                     <div className={styles.container}>
                         {/* Free claim starts here */}
                         <div className={styles.center}>
-                            <Image src={og_achievement} width={500} height={500} />
+                            <h1 className="py-2 px-4 font-bold text-3xl">
+                                Claim your FREE Egyptian Generals
+                            </h1>
+                            <p className="py-2">
+                                Mint an Egyptian General to lead your army in the upcoming
+                                blockchain game! If you are a holder of certain NFT collections, you
+                                are eligible to mint up to 3 Egyptian Generals for free!
+                            </p>
+
+                            <a href="https://app.verdomi.com/">
+                                <u className={styles.poppingText}>
+                                    Want more? Each extra mint is just $9 over here!
+                                </u>
+                            </a>
+
+                            <p className="py-2">
+                                There are 2,000 Egyptains in total. Of these, 1,000 are male and
+                                1,000 are female. There are also two 1/1 Egyptian GODS! (one female
+                                and one male) Will you be the lucky owner?
+                            </p>
+                            <Image src={egyptians_preview} width={488} height={632} />
                             <div className={styles.container}>
-                                <Form
-                                    onSubmit={claimFreeMint}
-                                    data={[
-                                        {
-                                            name: "amount",
-                                            options: ["1", "2", "3"],
-                                            type: "radios",
-                                            key: "_amount",
-                                            validation: {
-                                                required: true,
-                                            },
-                                        },
-                                        {
-                                            name: "freeMintAddress",
-                                            options: ["Bloot", "PVFD", "Legend-X", "Test"],
-                                            type: "radios",
-                                            key: "_freeMintAddress",
-                                            validation: {
-                                                required: true,
-                                            },
-                                        },
-                                        {
-                                            name: "delegate.cash Vault Address (Optional)",
-                                            type: "text",
-                                            value: "",
-                                            key: "_vaultAddress",
-                                        },
-                                    ]}
-                                    title="Claim your FREE Egyptian(s)"
-                                    id="Free Form"
-                                />
+                                <div className="py-2">
+                                    <Input
+                                        id="inputAmount"
+                                        label="Amount (1-3)"
+                                        placeholder="1"
+                                        value="1"
+                                        type="number"
+                                        key="_amount"
+                                        onChange={function noRefCheck() {}}
+                                        validation={{
+                                            numberMax: 3,
+                                            numberMin: 1,
+                                        }}
+                                    />
+                                </div>
+                                <div>
+                                    <div className="py-2">
+                                        <p>Select the collection you own</p>
+                                        <Dropdown
+                                            onChange={function noRefCheck() {}}
+                                            onComplete={function noRefCheck() {}}
+                                            id="collectionInput"
+                                            label="Collection: "
+                                            options={[
+                                                {
+                                                    id: "PVFD",
+                                                    label: "PVFD",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={1}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gae/ePldXxtnXfJ1UN3cPXLXv0WebbZX_SuWCxn5Ze4hJfhlDWzes1f_uDRjDxAZSL_-rz_yj_1wHiumFmee9C_cwkMT9cTj14JY2Qz1EQ?auto=format&w=1080"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "Bloot",
+                                                    label: "Bloot",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={2}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gae/srjbORK3qPUaMDvBC1EfaMrr3KK1fIg0T6G69QFg-czyTS4wfMm-rP9stVwh4_HyA3QSqMvzc8Ry0NY0OgNClVTaR6dGl6iBTyGMDQ?auto=format&w=3840"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "LegendX",
+                                                    label: "Legend-X",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={3}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gae/ojwAKtQpc8y0E8P8YS9ziiXTTkILFwMCIXNIRIC0-IFpZW4SFLhl8FUkDq6R2r8cP7cbHylgwgw4HzUMgSdoMQXd7oAVJS_lz8WrRQ0?auto=format&w=1080"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "KikoBakes",
+                                                    label: "Kiko Bakes",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={3}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gcs/files/c2a8e25e59b32b60e0865e2abad1eef0.jpg?auto=format&w=1080"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "SwaggyCows",
+                                                    label: "Swaggy Cows",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={3}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gae/l2rhqPjWWL9ds_GBJVLddqI3c61Szk_CvzLy8kzUpBkjcF4xugFbNu2CwuF3n8venzvpuNpfP-kNtnspkxiKi2H5TzLcLDtrlQaG?auto=format&w=1080"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                            ]}
+                                        />
+                                    </div>
+                                    <div className="py-2">
+                                        <p>
+                                            If using{" "}
+                                            <a href="https://delegate.cash/">
+                                                <u>delegate.cash</u>
+                                            </a>
+                                            , enter Vault Address
+                                        </p>
+                                    </div>
+                                    <div className="py-2">
+                                        <Input
+                                            label="Vault Address"
+                                            id="inputVault"
+                                            name="Test text Input"
+                                            placeholder=" "
+                                            onBlur={function noRefCheck() {}}
+                                            onChange={function noRefCheck() {}}
+                                            value=""
+                                        />
+                                        <p className="text-xs">
+                                            If you are holding the NFT from the selected colleciton
+                                            in the same wallet that you are minting from, leave this
+                                            blank. If you are using a hot wallet that has been
+                                            delegated through{" "}
+                                            <a href="https://delegate.cash/">
+                                                <u>delegate.cash</u>
+                                            </a>
+                                            {", "}
+                                            then you need to enter the address for your vault here.
+                                        </p>
+                                    </div>
+
+                                    <div className="">
+                                        <Button
+                                            label="mintButton"
+                                            text="Mint"
+                                            onClick={function noRefCheck() {}}
+                                            theme="primary"
+                                        />
+                                    </div>
+                                    <div className="py-16">
+                                        <a href="https://app.verdomi.com/">
+                                            <u className={styles.poppingText}>
+                                                Want more? Each extra mint is just $9 over here!
+                                            </u>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             {/* Free claim ends here */}
                         </div>
