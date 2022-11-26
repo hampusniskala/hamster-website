@@ -55,6 +55,8 @@ export default function FreeGeneralBox() {
             _freeMintAddress = "0x398A5b355658Df4a836c9250FCe6F0A0fC0c9EA0"
             // BasicNft Address on goerli
             //_freeMintAddress = "0xcBb0A6C5Dae791c043efb306fB6b5460Aa25CC71"
+        } else if ((_collection = "555 Collective")) {
+            _freeMintAddress = "0xe0170203C56Ec5aC0976621408aFc11a6FAD79a8"
         } else {
             _freeMintAddress = ""
         }
@@ -233,6 +235,20 @@ export default function FreeGeneralBox() {
                                                             fontSize={8}
                                                             size={24}
                                                             image="https://i.seadn.io/gae/l2rhqPjWWL9ds_GBJVLddqI3c61Szk_CvzLy8kzUpBkjcF4xugFbNu2CwuF3n8venzvpuNpfP-kNtnspkxiKi2H5TzLcLDtrlQaG?auto=format&w=1080"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "555 Collective",
+                                                    label: "555 Collective",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={3}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gae/idti4SVytDBKujuoa83ZIObY3POXp5uEGtZ9af70EKHIbwiYDpro4OaeORUYq5QjFTc4bSsc_xXokcwc7vRLFnQQhSyHaArNWjMd?auto=format&w=1080"
                                                             theme="image"
                                                         />
                                                     ),
