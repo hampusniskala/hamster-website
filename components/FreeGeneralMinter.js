@@ -55,6 +55,8 @@ export default function FreeGeneralBox() {
             _freeMintAddress = "0x398A5b355658Df4a836c9250FCe6F0A0fC0c9EA0"
             // BasicNft Address on goerli
             //_freeMintAddress = "0xcBb0A6C5Dae791c043efb306fB6b5460Aa25CC71"
+        } else if ((_collection = "The Chimpsons")) {
+            _freeMintAddress = "0xec64D881dBfD5871320E465562d913bDC25ce8fe"
         } else if ((_collection = "555 Collective")) {
             _freeMintAddress = "0xe0170203C56Ec5aC0976621408aFc11a6FAD79a8"
         } else {
@@ -249,6 +251,20 @@ export default function FreeGeneralBox() {
                                                             fontSize={8}
                                                             size={24}
                                                             image="https://i.seadn.io/gae/idti4SVytDBKujuoa83ZIObY3POXp5uEGtZ9af70EKHIbwiYDpro4OaeORUYq5QjFTc4bSsc_xXokcwc7vRLFnQQhSyHaArNWjMd?auto=format&w=1080"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "The Chimpsons",
+                                                    label: "The Chimpsons",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={3}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gcs/files/2fcc60cfe712bf9d62a1f521e8f952ad.jpg?auto=format&w=1080"
                                                             theme="image"
                                                         />
                                                     ),
