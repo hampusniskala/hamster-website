@@ -86,7 +86,7 @@ export default function PaidGeneralBox() {
                 type: "error",
                 message: tx.message,
                 title: "ERROR: Something went wrong",
-                position: "topR",
+                position: "bottomR",
             })
         }
     }
@@ -152,6 +152,13 @@ export default function PaidGeneralBox() {
                                         onClick={() => mintGeneral(inputAmount.value)}
                                         theme="primary"
                                     />
+                                </div>
+                                <div className="py-10">
+                                    <a href="/free-general-claim">
+                                        <u className="text-xl font-bold">
+                                            Looking for the Free Claim? Click here!
+                                        </u>
+                                    </a>
                                 </div>
                             </div>
                             {/* Paid mint ends here */}

@@ -93,7 +93,7 @@ export default function FreeGeneralBox() {
                 type: "error",
                 message: tx.message,
                 title: "ERROR: Something went wrong",
-                position: "topR",
+                position: "bottomR",
             })
         }
     }
