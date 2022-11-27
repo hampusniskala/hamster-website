@@ -119,13 +119,17 @@
 }
 
 .center {
-    margin-top: 650px;
+    margin-top: 700px;
     position: absolute;
     top: 0%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-40%, -40%);
     align-items: center;
+}
+
+.clickable {
+    cursor: pointer;
 }
 
 @media (max-width: 600px) {

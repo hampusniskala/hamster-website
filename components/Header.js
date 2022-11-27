@@ -4,6 +4,7 @@ import Image from "next/image"
 import verdomi_text from "../images/verdomi_text.png"
 import twitter_logo from "../images/twitter_logo.png"
 import discord_logo from "../images/discord_logo.png"
+import styles from "../styles/Home.module.css"
 
 export default function Header() {
     function handleClick(icon) {
@@ -26,20 +27,24 @@ export default function Header() {
                     <a className="mr-4 p-6">Free Claim</a>
                 </Link>
                 <div className="px-2">
-                    <Image
-                        src={twitter_logo}
-                        width={40}
-                        height={40}
-                        onClick={() => handleClick("twitter")}
-                    ></Image>{" "}
+                    <div className={styles.clickable}>
+                        <Image
+                            src={twitter_logo}
+                            width={40}
+                            height={40}
+                            onClick={() => handleClick("twitter")}
+                        ></Image>
+                    </div>
                 </div>
                 <div className="px-2">
-                    <Image
-                        src={discord_logo}
-                        width={40}
-                        height={40}
-                        onClick={() => handleClick("discord")}
-                    ></Image>
+                    <div className={styles.clickable}>
+                        <Image
+                            src={discord_logo}
+                            width={40}
+                            height={40}
+                            onClick={() => handleClick("discord")}
+                        ></Image>
+                    </div>
                 </div>
                 <ConnectButton moralisAuth={false} />
             </div>

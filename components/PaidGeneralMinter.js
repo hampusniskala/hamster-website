@@ -155,11 +155,13 @@ export default function PaidGeneralBox() {
                                     />
                                 </div>
                                 <div className="py-10">
-                                    <Link href="/free-general-claim">
-                                        <u className="text-xl font-bold">
-                                            Looking for the Free Claim? Click here!
-                                        </u>
-                                    </Link>
+                                    <div className={styles.clickable}>
+                                        <Link href="/free-general-claim">
+                                            <u className="text-xl font-bold">
+                                                Looking for the Free Claim? Click here!
+                                            </u>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                             {/* Paid mint ends here */}
