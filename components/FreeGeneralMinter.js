@@ -59,6 +59,8 @@ export default function FreeGeneralBox() {
             _freeMintAddress = "0xec64D881dBfD5871320E465562d913bDC25ce8fe"
         } else if ((_collection = "555 Collective")) {
             _freeMintAddress = "0xe0170203C56Ec5aC0976621408aFc11a6FAD79a8"
+        } else if ((_collection = "Bald Jesus")) {
+            _freeMintAddress = "0x8168199267c221664f0EA6bf631e1B257DafE87c"
         } else {
             _freeMintAddress = ""
         }
@@ -265,6 +267,20 @@ export default function FreeGeneralBox() {
                                                             fontSize={8}
                                                             size={24}
                                                             image="https://i.seadn.io/gcs/files/2fcc60cfe712bf9d62a1f521e8f952ad.jpg?auto=format&w=1080"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "Bald Jesus",
+                                                    label: "Bald Jesus",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={3}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gae/L62y0N25lbMIyKMG7HmxmF4oFA8hvpGqzUaTcgMxYr7vOTgRQr_j0gAdN3wotZdUjClWrNVDY6crkqcFTdg-bGZQU_CVnbtHBeCD7Q?auto=format&w=1080"
                                                             theme="image"
                                                         />
                                                     ),
