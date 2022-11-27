@@ -126,6 +126,7 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-40%, -40%);
     align-items: center;
+    margin-top: 220px;
 }
 
 @media (max-width: 600px) {
