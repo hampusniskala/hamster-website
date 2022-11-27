@@ -8,6 +8,7 @@ import { Card, useNotification, Input, Button } from "web3uikit"
 import { ethers } from "ethers"
 import styles from "../styles/Home.module.css"
 import egyptians_preview from "../images/egyptians_preview.gif"
+import Link from "next/link"
 
 export default function PaidGeneralBox() {
     const { isWeb3Enabled, account, chainId } = useMoralis()
@@ -154,11 +155,11 @@ export default function PaidGeneralBox() {
                                     />
                                 </div>
                                 <div className="py-10">
-                                    <a href="/free-general-claim">
+                                    <Link href="/free-general-claim">
                                         <u className="text-xl font-bold">
                                             Looking for the Free Claim? Click here!
                                         </u>
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             {/* Paid mint ends here */}

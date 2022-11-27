@@ -119,14 +119,13 @@
 }
 
 .center {
-    margin: 0;
+    margin-top: 250px;
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-40%, -40%);
     align-items: center;
-    margin-top: 220px;
 }
 
 @media (max-width: 600px) {
