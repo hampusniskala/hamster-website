@@ -61,6 +61,12 @@ export default function FreeGeneralBox() {
             _freeMintAddress = "0xe0170203C56Ec5aC0976621408aFc11a6FAD79a8"
         } else if ((_collection = "Bald Jesus")) {
             _freeMintAddress = "0x8168199267c221664f0EA6bf631e1B257DafE87c"
+        } else if ((_collection = "Bored Ape Yacht Club")) {
+            _freeMintAddress = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"
+        } else if ((_collection = "Mutant Ape Yacht Club")) {
+            _freeMintAddress = "0x60E4d786628Fea6478F785A6d7e704777c86a7c6"
+        } else if ((_collection = "Bored Ape Kennel Club")) {
+            _freeMintAddress = "0xba30E5F9Bb24caa003E9f2f0497Ad287FDF95623"
         } else {
             _freeMintAddress = ""
         }
@@ -281,6 +287,48 @@ export default function FreeGeneralBox() {
                                                             fontSize={8}
                                                             size={24}
                                                             image="https://i.seadn.io/gae/L62y0N25lbMIyKMG7HmxmF4oFA8hvpGqzUaTcgMxYr7vOTgRQr_j0gAdN3wotZdUjClWrNVDY6crkqcFTdg-bGZQU_CVnbtHBeCD7Q?auto=format&w=1080"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "Bored Ape Yacht Club",
+                                                    label: "Bored Ape Yacht Club",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={3}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gae/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB?auto=format&w=256"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "Mutant Ape Yacht Club",
+                                                    label: "Mutant Ape Yacht Club",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={3}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gae/lHexKRMpw-aoSyB1WdFBff5yfANLReFxHzt1DOj_sg7mS14yARpuvYcUtsyyx-Nkpk6WTcUPFoG53VnLJezYi8hAs0OxNZwlw6Y-dmI?auto=format&w=1080"
+                                                            theme="image"
+                                                        />
+                                                    ),
+                                                },
+                                                {
+                                                    id: "Bored Ape Kennel Club",
+                                                    label: "Bored Ape Kennel Club",
+                                                    prefix: (
+                                                        <Avatar
+                                                            avatarKey={3}
+                                                            borderRadius={7.5}
+                                                            fontSize={8}
+                                                            size={24}
+                                                            image="https://i.seadn.io/gae/l1wZXP2hHFUQ3turU5VQ9PpgVVasyQ79-ChvCgjoU5xKkBA50OGoJqKZeMOR-qLrzqwIfd1HpYmiv23JWm0EZ14owiPYaufqzmj1?auto=format&w=1080"
                                                             theme="image"
                                                         />
                                                     ),

@@ -2,6 +2,7 @@
   "name": "nextjs-smartcontract-lottery-fcc",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -21,6 +22,7 @@
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.5",
     "hardhat": "^2.11.2",
+    "ipfs-react-router": "^0.2.2",
     "postcss": "^8.4.12",
     "prettierrc": "^0.0.0-5",
     "react-router-dom": "^6.4.3",
