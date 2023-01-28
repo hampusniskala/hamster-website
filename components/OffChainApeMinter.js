@@ -168,6 +168,10 @@ export default function OffChainApeBox() {
                             <div className={styles.container}>
                                 <p className="py-">Total minted: {totalSupplyText} / 10000</p>
                                 <p className="py-">You have minted: {amountMintedText} / 10</p>
+                                <h2 className="py-2 px-4 font-bold text-l">
+                                    ❗❗❗ You can only mint one token at a time. Enter the tokenId
+                                    you wish to mint below. NOT the amount. ❗❗❗
+                                </h2>
                                 <div className="py-4">
                                     <Input
                                         id="inputTokenId"
