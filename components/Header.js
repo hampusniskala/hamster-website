@@ -26,6 +26,9 @@ export default function Header() {
                 <Link href="/free-general-claim">
                     <a className="mr-4 p-6">Free Claim</a>
                 </Link>
+                <Link href="/paid-general">
+                    <a className="mr-4 p-6">Buy General</a>
+                </Link>
                 <Link href="/my-achievements">
                     <a className="mr-4 p-6">Achievements</a>
                 </Link>
