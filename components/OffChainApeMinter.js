@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { useWeb3Contract, useMoralis } from "react-moralis"
 import offChainAbi from "../constants/OffChainAbi.json"
 import { ConnectButton } from "web3uikit"
-import nftAbi from "../constants/BasicNft.json"
 import Image from "next/image"
 import { Card, useNotification, Input, Button } from "web3uikit"
 import { ethers } from "ethers"
@@ -11,7 +10,6 @@ import OffChainApeGif from "../images/OffChainApe.gif"
 import Link from "next/link"
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree"
 import treeData from "../constants/OffChainApesTree.json"
-import { stringifyQuery } from "next/dist/server/server-route-utils"
 
 export default function OffChainApeBox() {
     const { isWeb3Enabled, account, chainId } = useMoralis()
@@ -25,7 +23,7 @@ export default function OffChainApeBox() {
     const [hasBeenMintedText, setHasBeenMintedText] = useState("")
 
     // Might be uselesss
-    const [tokenDescription, setTokenDescription] = useState("")
+
     const [showModal, setShowModal] = useState(false)
     const hideModal = () => setShowModal(false)
 
@@ -91,7 +89,7 @@ export default function OffChainApeBox() {
     }
 
     async function updateUI() {
-        await updateUnminted()
+        updateUnminted()
         const totalSupply = await getTotalSupply()
         setTotalSupplyText(totalSupply.toString())
 
