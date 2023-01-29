@@ -55,13 +55,18 @@ export default function OffChainApeBox() {
     })
 
     async function updateIsMintedText() {
+        let tokenId = inputTokenId.value
+        if (tokenId == "") {
+            tokenId = unmintedId
+        }
+
         const options = {
             abi: offChainAbi,
             contractAddress: offChainAddress,
             functionName: "isMinted",
             msgValue: 0,
             params: {
-                tokenId: inputTokenId.value,
+                tokenId: tokenId,
             },
         }
 
@@ -70,10 +75,10 @@ export default function OffChainApeBox() {
         })
 
         if (isMinted) {
-            setHasBeenMintedText("TokenId #" + inputTokenId.value + " has already been minted.")
+            setHasBeenMintedText("TokenId #" + tokenId + " has already been minted.")
             return true
         } else {
-            setHasBeenMintedText("TokenId #" + inputTokenId.value + " is available!")
+            setHasBeenMintedText("TokenId #" + tokenId + " is available!")
             return false
         }
     }
@@ -86,8 +91,10 @@ export default function OffChainApeBox() {
     }
 
     async function updateUI() {
+        await updateUnminted()
         const totalSupply = await getTotalSupply()
         setTotalSupplyText(totalSupply.toString())
+
         setIdToBeMintedText(inputTokenId.value)
         updateAmountMinted()
         updateIsMintedText()
@@ -106,13 +113,15 @@ export default function OffChainApeBox() {
     useEffect(() => {
         if (isWeb3Enabled) {
             updateUI()
-            updateUnminted()
         }
     }, [isWeb3Enabled])
 
     const { runContractFunction } = useWeb3Contract()
 
     async function mintToken(data) {
+        if (data == "") {
+            data = unmintedId
+        }
         console.log("Minting...")
         const _tokenId = data
         let _proof, _imageIpfs, _color
