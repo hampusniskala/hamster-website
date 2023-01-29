@@ -22,6 +22,8 @@ export default function OffChainApeBox() {
     const [totalSupplyText, setTotalSupplyText] = useState("")
     const [unmintedId, setUnmintedId] = useState("")
 
+    const [hasBeenMintedText, setHasBeenMintedText] = useState("")
+
     // Might be uselesss
     const [tokenDescription, setTokenDescription] = useState("")
     const [showModal, setShowModal] = useState(false)
@@ -52,11 +54,43 @@ export default function OffChainApeBox() {
         params: { wallet: account },
     })
 
+    async function updateIsMintedText() {
+        const options = {
+            abi: offChainAbi,
+            contractAddress: offChainAddress,
+            functionName: "isMinted",
+            msgValue: 0,
+            params: {
+                tokenId: inputTokenId.value,
+            },
+        }
+
+        const isMinted = await runContractFunction({
+            params: options,
+        })
+
+        if (isMinted) {
+            setHasBeenMintedText("TokenId #" + inputTokenId.value + " has already been minted.")
+            return true
+        } else {
+            setHasBeenMintedText("TokenId #" + inputTokenId.value + " is available!")
+            return false
+        }
+    }
+
+    function setTrueFalse() {
+        if (hasBeenMintedText.includes("available")) {
+            return false
+        }
+        return true
+    }
+
     async function updateUI() {
         const totalSupply = await getTotalSupply()
         setTotalSupplyText(totalSupply.toString())
         setIdToBeMintedText(inputTokenId.value)
         updateAmountMinted()
+        updateIsMintedText()
     }
 
     async function updateUnminted() {
@@ -186,6 +220,13 @@ export default function OffChainApeBox() {
                                             numberMin: 0,
                                         }}
                                     />
+                                </div>
+                                <div
+                                    className={`${
+                                        setTrueFalse() ? styles.redText : styles.greenText
+                                    }`}
+                                >
+                                    <p className="font-bold py-2">{hasBeenMintedText}</p>
                                 </div>
                                 <p className="py-">
                                     You will mint the NFT with tokenId #{idToBeMintedText} for 0 ETH

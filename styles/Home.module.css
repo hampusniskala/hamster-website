@@ -132,6 +132,14 @@
     cursor: pointer;
 }
 
+.greenText {
+    color: #40ff00;
+}
+
+.redText {
+    color: #ff0000;
+}
+
 @media (max-width: 600px) {
     .grid {
         width: 100%;
