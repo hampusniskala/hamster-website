@@ -11,17 +11,17 @@ export default function HamsterList() {
   const { isWeb3Enabled, account } = useMoralis();
   const [hamsterList, setHamsterList] = useState([]);
 
-  const { runContractFunction: ownerOf } = useWeb3Contract({
-    abi: hamsterNftAbi,
-    contractAddress: hamsterNftAddress,
-    functionName: "ownerOf",
-    params: { tokenId: 0 } 
-    });
-
   async function updateUI() {
     const newHamsterList = [];
     for (let i = 0; i < 100; i++) {
       try {
+        const { runContractFunction: ownerOf } = useWeb3Contract({
+          abi: hamsterNftAbi,
+          contractAddress: hamsterNftAddress,
+          functionName: "ownerOf",
+          params: { tokenId: i }, // Pass the tokenId as a parameter using the "params" option
+        });
+
         const owner = await ownerOf();
         console.log(`Hamster #${i} Owner: ${owner}`);
         if (owner === account) {

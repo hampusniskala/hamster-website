@@ -15,8 +15,8 @@ export default function EnemyList() {
     abi: hamsterNftAbi,
     contractAddress: hamsterNftAddress,
     functionName: "ownerOf",
-    params: { tokenId: 0 } 
-    });
+    params: { tokenId: 0 }, // Initial value for tokenId (this will be updated later)
+  });
 
   useEffect(() => {
     if (isWeb3Enabled && selectedHamsterTokenId !== null) {
@@ -28,6 +28,9 @@ export default function EnemyList() {
     const newEnemyList = [];
     for (let i = 0; i < 100; i++) {
       try {
+        // Update the tokenId parameter for the ownerOf function with the current value of i
+        ownerOf.updateParams({ tokenId: i });
+
         const owner = await ownerOf();
         console.log(`Hamster #${i} Owner: ${owner}`);
         if (owner !== account && owner !== "0x0000000000000000000000000000000000000000") {
