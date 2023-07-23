@@ -1,14 +1,16 @@
 import Head from "next/head"
 import styles from "../styles/Home.module.css"
-import { HamsterProvider } from "../components/HamsterContext"; // Import the HamsterProvider from the correct path
+import { HamsterProvider, useHamsterContext } from "../components/HamsterContext";
 import HamsterMintBox from "../components/HamsterMint"
 import HamsterBox from "../components/HamsterBox"
 import HamsterList from "../components/HamsterList"
 import EnemyList from "../components/EnemyList"
 
 export default function Home() {
+    const { selectedHamsterTokenId, selectedEnemyTokenId } = useHamsterContext(); // Use the selectedHamsterTokenId and selectedEnemyTokenId from the context
+
     return (
-        <HamsterProvider> {/* Wrap the Home component with the HamsterProvider */}
+        <HamsterProvider>
           <div className={styles.container}>
             <Head>
               {/* ... */}
