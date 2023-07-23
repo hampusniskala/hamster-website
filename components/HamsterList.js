@@ -7,7 +7,7 @@ const hamsterNftAddress = "0x5726c14663a1ead4a7d320e8a653c9710b2a2e89";
 
 export default function HamsterList() {
   const { selectedHamsterTokenId, setSelectedHamsterTokenId } = useHamsterContext();
- 
+
   const { isWeb3Enabled, account } = useMoralis();
   const [hamsterList, setHamsterList] = useState([]);
 
@@ -20,27 +20,23 @@ export default function HamsterList() {
   async function updateUI() {
     const newHamsterList = [];
     for (let i = 0; i < 100; i++) {
-      try {
-        const owner = await ownerOf({ params: { tokenId: i } }); // Pass the tokenId as a parameter using the 'params' option
-        console.log(`Hamster #${i} Owner: ${owner}`);
-        if (owner === account) {
-          newHamsterList.push({
-            id: i,
-            label: `#${i}`,
-            prefix: (
-              <Avatar
-                avatarKey={3}
-                borderRadius={7.5}
-                fontSize={8}
-                size={24}
-                image={`../images/nobg/${i}.png`}
-                theme="image"
-              />
-            ),
-          });
-        }
-      } catch (error) {
-        console.error(`Error fetching owner of Hamster #${i}`, error);
+      const owner = await ownerOf({ params: { tokenId: i } });
+      console.log(owner, i)
+      if (owner === account) {
+        newHamsterList.push({
+          id: i,
+          label: `#${i}`,
+          prefix: (
+            <Avatar
+              avatarKey={3}
+              borderRadius={7.5}
+              fontSize={8}
+              size={24}
+              image={`../images/nobg/${i}.png`}
+              theme="image"
+            />
+          ),
+        });
       }
     }
     setHamsterList(newHamsterList);
@@ -58,7 +54,6 @@ export default function HamsterList() {
 
   return (
     <div>
-        <HamsterProvider>
       <div>
         {account ? (
           <div>
@@ -74,7 +69,6 @@ export default function HamsterList() {
           <div>Connect your wallet...</div>
         )}
       </div>
-      </HamsterProvider>
     </div>
   );
 }
