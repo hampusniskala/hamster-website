@@ -56,10 +56,6 @@ export default function HamsterList({ tokenId }) {
     setSelectedHamsterTokenId(tokenId);
   }
 
-  const [selectedHamster, setSelectedHamster] = useState("")
-  function handleHamsterSelect(tokenId) {
-    setSelectedHamster(tokenId)
-  }
 
   return (
     <div>

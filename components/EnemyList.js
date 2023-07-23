@@ -61,10 +61,6 @@ export default function HamsterList({ tokenId }) {
       setSelectedEnemyTokenId(tokenId);
     }
 
-    const [selectedEnemy, setSelectedEnemy] = useState("");
-    function handleEnemySelect(tokenId) {
-      setSelectedEnemy(tokenId);
-    }
   
     return (
       <div>
