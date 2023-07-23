@@ -1,6 +1,6 @@
 import Head from "next/head"
 import styles from "../styles/Home.module.css"
-import { HamsterProvider, useHamsterContext } from "../components/HamsterContext";
+import { HamsterProvider } from "../components/HamsterContext";
 import HamsterMintBox from "../components/HamsterMint"
 import HamsterBox from "../components/HamsterBox"
 import HamsterList from "../components/HamsterList"

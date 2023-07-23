@@ -52,6 +52,7 @@ export default function HamsterList() {
 
   return (
     <div>
+        <HamsterProvider>
       <div>
         {account ? (
           <div>
@@ -67,6 +68,7 @@ export default function HamsterList() {
           <div>Connect your wallet...</div>
         )}
       </div>
+      </HamsterProvider>
     </div>
   );
 }

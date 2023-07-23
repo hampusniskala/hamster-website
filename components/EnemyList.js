@@ -55,21 +55,23 @@ export default function EnemyList() {
 
   return (
     <div>
-      <div>
-        {account ? (
-          <div>
-            <div>Select which Hamster to challenge!</div>
-            <Dropdown
-              onChange={(e) => handleEnemySelect(e.id)}
-              id="inputEnemy"
-              label="Hamster: "
-              options={enemyList}
-            />
-          </div>
-        ) : (
-          <div>Connect your wallet...</div>
-        )}
-      </div>
+      <HamsterProvider> {/* Wrap the EnemyList component with the HamsterProvider */}
+        <div>
+          {account ? (
+            <div>
+              <div>Select which Hamster to challenge!</div>
+              <Dropdown
+                onChange={(e) => handleEnemySelect(e.id)}
+                id="inputEnemy"
+                label="Hamster: "
+                options={enemyList}
+              />
+            </div>
+          ) : (
+            <div>Connect your wallet...</div>
+          )}
+        </div>
+      </HamsterProvider>
     </div>
   );
 }
