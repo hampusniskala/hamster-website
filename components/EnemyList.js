@@ -27,7 +27,7 @@ export default function EnemyList() {
     const newEnemyList = [];
     for (let i = 0; i < 100; i++) {
       try {
-        const owner = await ownerOf(i, { params: { tokenId: i } });
+        const owner = await ownerOf({ params: { tokenId: i } });
         console.log(`Hamster #${i} Owner: ${owner}`);
         if (owner !== account && owner !== "0x0000000000000000000000000000000000000000") {
           newEnemyList.push({
