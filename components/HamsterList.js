@@ -9,7 +9,7 @@ const HamsterList = () => {
   const { user, Moralis } = useMoralis();
   const maxTokenId = 99;
 
-  // Function to fetch the NFTs owned by the connected account
+  // Function to fetch the NFTs not owned by the connected account
   const fetchNFTs = async () => {
     try {
       const contract = new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
@@ -17,8 +17,7 @@ const HamsterList = () => {
 
       for (let i = 0; i <= maxTokenId; i++) {
         const owner = await contract.methods.ownerOf(i).call();
-        console.log("hamster", i, owner)
-        if (owner.toLowerCase() === user.attributes.ethAddress.toLowerCase()) {
+        if (owner.toLowerCase() !== user.attributes.ethAddress.toLowerCase()) {
           ownedNFTs.push({ tokenId: i });
         }
       }
@@ -26,12 +25,16 @@ const HamsterList = () => {
       if (ownedNFTs.length > 0) {
         setTokenId(ownedNFTs[0].tokenId);
       }
+
+      setOwnedNFTs(ownedNFTs); // Store the filtered NFTs in state for rendering the dropdown options
     } catch (error) {
       console.error('Error fetching NFTs:', error);
     }
   };
 
-  // Fetch NFTs on component mount
+  const [ownedNFTs, setOwnedNFTs] = useState([]);
+
+  // Fetch NFTs on component mount or when the user changes
   useEffect(() => {
     if (user) {
       fetchNFTs();
@@ -47,11 +50,20 @@ const HamsterList = () => {
   return (
     <div>
       <label htmlFor="tokenSelect">Select an NFT:</label>
-      <select id="tokenSelect" value={tokenId} onChange={handleTokenChange}>
-        {/* Render dropdown options for tokenId 0 to maxTokenId */}
-        {Array.from({ length: maxTokenId + 1 }).map((_, index) => (
-          <option key={index} value={index}>
-            NFT {index}
+      <select
+        id="tokenSelect"
+        value={tokenId}
+        onChange={handleTokenChange}
+        style={{ color: 'black' }} // Change text color to black for the select element
+      >
+        {/* Render dropdown options for NFTs not owned by the connected account */}
+        {ownedNFTs.map((nft) => (
+          <option
+            key={nft.tokenId}
+            value={nft.tokenId}
+            style={{ color: 'black' }} // Change text color to black for the option elements
+          >
+            NFT {nft.tokenId}
           </option>
         ))}
       </select>

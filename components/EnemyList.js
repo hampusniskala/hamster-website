@@ -25,10 +25,14 @@ const EnemyList = () => {
       if (enemyNFTs.length > 0) {
         setTokenId(enemyNFTs[0].tokenId);
       }
+
+      setEnemyNFTs(enemyNFTs); // Store the filtered NFTs in state for rendering the dropdown options
     } catch (error) {
       console.error('Error fetching enemy NFTs:', error);
     }
   };
+
+  const [enemyNFTs, setEnemyNFTs] = useState([]);
 
   // Fetch enemy NFTs on component mount or when the user changes
   useEffect(() => {
@@ -46,11 +50,20 @@ const EnemyList = () => {
   return (
     <div>
       <label htmlFor="enemyTokenSelect">Select an Enemy NFT:</label>
-      <select id="enemyTokenSelect" value={tokenId} onChange={handleTokenChange}>
+      <select
+        id="enemyTokenSelect"
+        value={tokenId}
+        onChange={handleTokenChange}
+        style={{ color: 'black' }} // Change text color to black for the select element
+      >
         {/* Render dropdown options for enemy tokenIds not owned by zero address and connected account */}
-        {Array.from({ length: maxTokenId + 1 }).map((_, index) => (
-          <option key={index} value={index}>
-            Enemy NFT {index}
+        {enemyNFTs.map((enemyNFT) => (
+          <option
+            key={enemyNFT.tokenId}
+            value={enemyNFT.tokenId}
+            style={{ color: 'black' }} // Change text color to black for the option elements
+          >
+            Enemy NFT {enemyNFT.tokenId}
           </option>
         ))}
       </select>
