@@ -64,4 +64,16 @@ export default function HamsterList() {
           <div>
             <div>Select your Hamster to race!</div>
             <Dropdown
-              onChange={(e) => handleHamsterSelect(e
+              onChange={(e) => handleHamsterSelect(e.id)}
+              id="inputHamster"
+              label="Hamster: "
+              options={hamsterList}
+            />
+          </div>
+        ) : (
+          <div>Connect your wallet...</div>
+        )}
+      </div>
+    </div>
+  );
+}
