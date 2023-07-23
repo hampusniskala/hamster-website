@@ -1,34 +1,29 @@
-import { useState, useEffect } from "react"
-import { useWeb3Contract, useMoralis } from "react-moralis"
-import Image from "next/image"
-import { Card, Avatar, Dropdown } from "web3uikit"
-import { ethers } from "ethers"
+import { useState, useEffect } from "react";
+import { useWeb3Contract, useMoralis } from "react-moralis";
+import { useHamsterContext } from "./HamsterContext";
+import { Dropdown, Avatar } from "web3uikit";
+import hamsterNftAbi from "../constants/BasicNft.json"; // Import hamsterNftAbi from the correct path
+const hamsterNftAddress = "0x5726c14663a1ead4a7d320e8a653c9710b2a2e89";
 
-import hamsterNftAbi from "../constants/BasicNft.json"
-
-const hamsterNftAddress = "0x5726c14663a1ead4a7d320e8a653c9710b2a2e89"
-
-export default function HamsterList({ tokenId }) {
-  const { isWeb3Enabled, account } = useMoralis()
-  const [hamsterList, setHamsterList] = useState([])
+export default function HamsterList() {
+  const { selectedHamsterTokenId, setSelectedHamsterTokenId } = useHamsterContext();
+  const { isWeb3Enabled, account } = useMoralis();
+  const [hamsterList, setHamsterList] = useState([]);
 
   const { runContractFunction: ownerOf } = useWeb3Contract({
     abi: hamsterNftAbi,
     contractAddress: hamsterNftAddress,
     functionName: "ownerOf",
-    params: {
-      tokenId: tokenId,
-    },
-  })
+  });
 
   async function updateUI() {
-    const newHamsterList = []
+    const newHamsterList = [];
     for (let i = 0; i < 100; i++) {
-      const owner = await ownerOf(i)
+      const owner = await ownerOf(i);
       if (owner === account) {
         newHamsterList.push({
           id: i,
-          label: `Hamster #${i}`,
+          label: `#${i}`,
           prefix: (
             <Avatar
               avatarKey={3}
@@ -39,23 +34,21 @@ export default function HamsterList({ tokenId }) {
               theme="image"
             />
           ),
-        })
+        });
       }
     }
-    setHamsterList(newHamsterList)
+    setHamsterList(newHamsterList);
   }
 
   useEffect(() => {
     if (isWeb3Enabled) {
-      updateUI()
+      updateUI();
     }
-  }, [isWeb3Enabled])
+  }, [isWeb3Enabled]);
 
-  const [selectedHamsterTokenId, setSelectedHamsterTokenId] = useState(null);
   async function handleHamsterSelect(tokenId) {
     setSelectedHamsterTokenId(tokenId);
   }
-
 
   return (
     <div>
