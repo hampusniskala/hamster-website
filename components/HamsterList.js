@@ -17,6 +17,7 @@ const HamsterList = () => {
 
       for (let i = 0; i <= maxTokenId; i++) {
         const owner = await contract.methods.ownerOf(i).call();
+        console.log("hamster", i, owner)
         if (owner.toLowerCase() === user.attributes.ethAddress.toLowerCase()) {
           ownedNFTs.push({ tokenId: i });
         }
