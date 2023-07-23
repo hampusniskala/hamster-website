@@ -144,9 +144,8 @@ export default function HamsterMintBox() {
                                 if you win you get 30 $HAMS! The losing hamster gets burned forever!
                                 Anyone can be challenged at any time. This means that your hamster could be burned
                                 at any moment if it is challenged and loses. This also means that you could earn 
-                                passive income if your hamster is challenged and you win! It's most fun to initate
+                                passive income if your hamster is challenged and you win! Its most fun to initate
                                 the races yourself so you get to watch the hamster race.
-
                             </p>
                             <p className="py-2">
                                 20% of all $HAMS collected from NFT sales are automatically added to the jackpot.
