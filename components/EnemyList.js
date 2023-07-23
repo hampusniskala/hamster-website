@@ -17,6 +17,7 @@ const EnemyList = () => {
 
       for (let i = 0; i <= maxTokenId; i++) {
         const owner = await contract.methods.ownerOf(i).call();
+        console.log("enemy", i, owner)
         if (owner.toLowerCase() !== '0x0000000000000000000000000000000000000000' && owner.toLowerCase() !== user.attributes.ethAddress.toLowerCase()) {
           enemyNFTs.push({ tokenId: i });
         }
