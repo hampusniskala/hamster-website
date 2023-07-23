@@ -1,14 +1,21 @@
 import { useState, useEffect } from "react";
-import { useMoralis } from "react-moralis";
+import { useWeb3Contract, useMoralis } from "react-moralis";
 import { useHamsterContext } from "./HamsterContext";
 import { Dropdown, Avatar } from "web3uikit";
-import { useHamsterContract } from "../hooks/useHamsterContract";
+import hamsterNftAbi from "../constants/BasicNft.json";
+
+const hamsterNftAddress = "0x5726c14663a1ead4a7d320e8a653c9710b2a2e89";
 
 export default function EnemyList() {
   const { isWeb3Enabled, account } = useMoralis();
   const { selectedHamsterTokenId } = useHamsterContext();
   const [enemyList, setEnemyList] = useState([]);
-  const { ownerOf } = useHamsterContract(); // Use the custom hook
+
+  const { runContractFunction: ownerOf } = useWeb3Contract({
+    abi: hamsterNftAbi,
+    contractAddress: hamsterNftAddress,
+    functionName: "ownerOf",
+  });
 
   useEffect(() => {
     if (isWeb3Enabled && selectedHamsterTokenId !== null) {
@@ -20,7 +27,7 @@ export default function EnemyList() {
     const newEnemyList = [];
     for (let i = 0; i < 100; i++) {
       try {
-        const owner = await ownerOf(i);
+        const owner = await ownerOf(i, { params: { tokenId: i } });
         console.log(`Hamster #${i} Owner: ${owner}`);
         if (owner !== account && owner !== "0x0000000000000000000000000000000000000000") {
           newEnemyList.push({
@@ -43,6 +50,7 @@ export default function EnemyList() {
       }
     }
     setEnemyList(newEnemyList);
+    console.log("Enemy List:", newEnemyList);
   }
 
   const [selectedEnemyTokenId, setSelectedEnemyTokenId] = useState(null);
