@@ -21,8 +21,14 @@ export default function HamsterMintBox() {
     const [totalPriceText, setTotalPriceText] = useState("40")
 
     function updateUI() {
-        // No need to calculate totalPriceText based on user input
-        setAmountText(inputAmount.value)
+        // Calculate the total price based on the selected amount
+        const priceForOne = 40; // You can change this if the price per NFT is different
+        const totalAmount = parseInt(inputAmount.value, 10);
+        setAmountText(totalAmount.toString());
+    
+        // Calculate the total price based on the selected amount
+        const totalPrice = priceForOne * totalAmount;
+        setTotalPriceText(totalPrice.toString());
       }
 
     useEffect(() => {
