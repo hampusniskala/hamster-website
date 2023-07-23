@@ -1,12 +1,14 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { HamsterProvider } from "../components/HamsterContext";
+import { HamsterProvider, useHamsterContext } from "../components/HamsterContext"; // Import the useHamsterContext hook
 import HamsterMintBox from "../components/HamsterMint";
 import HamsterBox from "../components/HamsterBox";
 import HamsterList from "../components/HamsterList";
 import EnemyList from "../components/EnemyList";
 
 export default function Home() {
+  const { selectedHamsterTokenId, selectedEnemyTokenId } = useHamsterContext(); // Use the selectedHamsterTokenId and selectedEnemyTokenId from the context
+
   return (
     <HamsterProvider>
       <div className={styles.container}>
@@ -19,11 +21,13 @@ export default function Home() {
         <div className="py-4">
           <h1>Hamster Race!</h1>
         </div>
-        <HamsterList />
-        <EnemyList />
+        {/* Pass the selectedHamsterTokenId and selectedEnemyTokenId as props */}
+        <HamsterList selectedHamsterTokenId={selectedHamsterTokenId} />
+        <EnemyList selectedEnemyTokenId={selectedEnemyTokenId} />
         <div className="py-4">
-        <HamsterBox tokenId={selectedHamsterTokenId} />
-        <HamsterBox tokenId={selectedEnemyTokenId} />
+          {/* Pass the selectedHamsterTokenId and selectedEnemyTokenId as props */}
+          <HamsterBox tokenId={selectedHamsterTokenId} />
+          <HamsterBox tokenId={selectedEnemyTokenId} />
         </div>
       </div>
     </HamsterProvider>
