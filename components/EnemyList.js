@@ -10,11 +10,16 @@ export default function EnemyList() {
   const { selectedHamsterTokenId } = useHamsterContext();
   const [enemyList, setEnemyList] = useState([]);
 
-  const { runContractFunction: ownerOf } = useWeb3Contract({
-    abi: hamsterNftAbi,
-    contractAddress: hamsterNftAddress,
-    functionName: "ownerOf",
-  });
+  // Separate function to call the ownerOf function with a specific tokenId
+  async function getOwnerOf(tokenId) {
+    const { runContractFunction: ownerOf } = useWeb3Contract({
+      abi: hamsterNftAbi,
+      contractAddress: hamsterNftAddress,
+      functionName: "ownerOf",
+      params: { tokenId },
+    });
+    return ownerOf();
+  }
 
   useEffect(() => {
     if (isWeb3Enabled && selectedHamsterTokenId !== null) {
@@ -26,7 +31,7 @@ export default function EnemyList() {
     const enemies = [];
 
     for (let i = 0; i < 100; i++) {
-      const owner = await ownerOf({ params: { tokenId: i } });
+      const owner = await getOwnerOf(i);
       console.log(owner, i)
       if (owner !== account && owner !== "0x0000000000000000000000000000000000000000") {
         enemies.push({
