@@ -3,7 +3,6 @@ import { useWeb3Contract, useMoralis } from "react-moralis"
 import Image from "next/image"
 import { Card, useNotification, Avatar, Dropdown, Input, Button  } from "web3uikit"
 import { ethers } from "ethers"
-import { Dropdown, Input, Button } from "web3uikit"
 
 //import hamsterNftAbi from "../constants/HamsterRaceNFT.json"
 
