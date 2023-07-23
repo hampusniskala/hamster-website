@@ -56,6 +56,11 @@ export default function HamsterList({ tokenId }) {
       }
     }, [isWeb3Enabled]);
   
+    const [selectedEnemyTokenId, setSelectedEnemyTokenId] = useState(null);
+    async function handleEnemySelect(tokenId) {
+      setSelectedEnemyTokenId(tokenId);
+    }
+
     const [selectedEnemy, setSelectedEnemy] = useState("");
     function handleEnemySelect(tokenId) {
       setSelectedEnemy(tokenId);

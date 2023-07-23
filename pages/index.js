@@ -22,8 +22,8 @@ export default function Home() {
       <HamsterList />
       <EnemyList />
       <div className="py-4">
-        <HamsterBox tokenId={selectedHamster} />
-        <HamsterBox tokenId={selectedEnemy} />
+      <HamsterBox tokenId={selectedHamsterTokenId} />
+        <HamsterBox tokenId={selectedEnemyTokenId} />
       </div>
     </div>
   )

@@ -51,6 +51,11 @@ export default function HamsterList({ tokenId }) {
     }
   }, [isWeb3Enabled])
 
+  const [selectedHamsterTokenId, setSelectedHamsterTokenId] = useState(null);
+  async function handleHamsterSelect(tokenId) {
+    setSelectedHamsterTokenId(tokenId);
+  }
+
   const [selectedHamster, setSelectedHamster] = useState("")
   function handleHamsterSelect(tokenId) {
     setSelectedHamster(tokenId)
@@ -74,5 +79,5 @@ export default function HamsterList({ tokenId }) {
         )}
       </div>
     </div>
-  )
+  );
 }
