@@ -13,78 +13,74 @@ const hamsterNftAddress = "0x5726c14663a1ead4a7d320e8a653c9710b2a2e89"
 
 export var selectedEnemy
 
-export default async function HamsterList({ tokenId }) {
-    const { isWeb3Enabled, account } = useMoralis()
-    const [imageURI, setImageURI] = useState("")
-
+export default function HamsterList({ tokenId }) {
+    const { isWeb3Enabled, account } = useMoralis();
+    const [enemyList, setEnemyList] = useState([]);
+  
     const { runContractFunction: ownerOf } = useWeb3Contract({
-        abi: hamsterNftAbi,
-        contractAddress: hamsterNftAddress,
-        functionName: "ownerOf",
-        params: {
-            tokenId: tokenId,
-        },
-    })
-    
-    let enemyList = []
-
-    for (let i = 0; i < 100; i++) {
-    
-        const owner = await ownerOf(i)
-        if(owner != account && owner != 0x0000000000000000000000000000000000000000){
-            hamsterList.push({
-                id: i,
-                label: `Hamster #${i}`,
-                prefix: (
-                    <Avatar
-                        avatarKey={3}
-                        borderRadius={7.5}
-                        fontSize={8}
-                        size={24}
-                        image={`../images/nobg/${i}.png`}
-                        theme="image"
-                    />
-                ),
-            },)
+      abi: hamsterNftAbi,
+      contractAddress: hamsterNftAddress,
+      functionName: "ownerOf",
+      params: {
+        tokenId: tokenId,
+      },
+    });
+  
+    async function updateUI() {
+      const newEnemyList = [];
+      for (let i = 0; i < 100; i++) {
+        const owner = await ownerOf(i);
+        if (owner !== account && owner !== "0x0000000000000000000000000000000000000000") {
+          newEnemyList.push({
+            id: i,
+            label: `Hamster #${i}`,
+            prefix: (
+              <Avatar
+                avatarKey={3}
+                borderRadius={7.5}
+                fontSize={8}
+                size={24}
+                image={`../images/nobg/${i}.png`}
+                theme="image"
+              />
+            ),
+          });
         }
-    
-        
+      }
+      setEnemyList(newEnemyList);
     }
-
+  
     useEffect(() => {
-        if (isWeb3Enabled) {
-            updateUI()
-        }
-    }, [isWeb3Enabled])
-    
-    const [selectedEnemy, setSelectedEnemy] = useState("")
-    async function handleEnemySelect(tokenId) {
-        setSelectedEnemy(tokenId)
+      if (isWeb3Enabled) {
+        updateUI();
+      }
+    }, [isWeb3Enabled]);
+  
+    const [selectedEnemy, setSelectedEnemy] = useState("");
+    function handleEnemySelect(tokenId) {
+      setSelectedEnemy(tokenId);
     }
-
+  
     return (
+      <div>
         <div>
+          {account ? (
             <div>
-                {account ? (
-                    <div>
-                    <div>
-                        Select which Hamster to challenge!
-                    </div>
-                    <Dropdown
-                        onChange={(e) => handleEnemySelect(e.id)}
-                        onComplete={function noRefCheck() {}}
-                        id="inputEnemy"
-                        label="Hamster: "
-                        options={enemyList}
-                    />
-                    </div>
-                ) : (
-                    <div>Connect your wallet...</div>
-                )}
+              <div>Select which Hamster to challenge!</div>
+              <Dropdown
+                onChange={(e) => handleEnemySelect(e.id)}
+                id="inputEnemy"
+                label="Hamster: "
+                options={enemyList}
+              />
             </div>
+          ) : (
+            <div>Connect your wallet...</div>
+          )}
         </div>
-    )
-}
+      </div>
+    );
+  }
 
 
 

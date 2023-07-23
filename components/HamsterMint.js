@@ -17,27 +17,13 @@ import Link from "next/link"
 export default function HamsterMintBox() {
     const { isWeb3Enabled, account, chainId } = useMoralis()
     const dispatch = useNotification()
-    const [amountText, setAmountText] = useState("")
-    const [totalPriceText, setTotalPriceText] = useState("")
+    const [amountText, setAmountText] = useState("1")
+    const [totalPriceText, setTotalPriceText] = useState("40")
 
-    // Might be uselesss
-    const [tokenDescription, setTokenDescription] = useState("")
-    const [showModal, setShowModal] = useState(false)
-    const hideModal = () => setShowModal(false)
-
-    // General minter
-    const chainString = chainId ? parseInt(chainId).toString() : "31337"
-    const hamsterNftAddress = "0x5726c14663a1ead4a7d320e8a653c9710b2a2e89"
-
-    async function updateUI() {
-        const priceForOne = 40
-        console.log(`The price for one is ${priceForOne}`)
+    function updateUI() {
+        // No need to calculate totalPriceText based on user input
         setAmountText(inputAmount.value)
-
-        const totalPrice = (priceForOne * inputAmount.value )
-
-        setTotalPriceText(totalPrice)
-    }
+      }
 
     useEffect(() => {
         if (isWeb3Enabled) {
