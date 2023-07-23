@@ -20,7 +20,7 @@ export default function HamsterList() {
   async function updateUI() {
     const newHamsterList = [];
     for (let i = 0; i < 100; i++) {
-      const owner = await ownerOf(i);
+        const owner = await ownerOf(i, { params: { tokenId: i } });
       console.log(owner, i)
       if (owner === account) {
         newHamsterList.push({
