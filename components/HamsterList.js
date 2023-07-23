@@ -1,58 +1,54 @@
 import { useState, useEffect } from "react";
-import { useWeb3Contract, useMoralis } from "react-moralis";
+import { useMoralis } from "react-moralis";
 import { useHamsterContext } from "./HamsterContext";
 import { Dropdown, Avatar } from "web3uikit";
-import hamsterNftAbi from "../constants/BasicNft.json";
-
-const hamsterNftAddress = "0x5726c14663a1ead4a7d320e8a653c9710b2a2e89";
+import { useOwnerOf } from "./useOwnerOf"; // Import the custom hook
 
 export default function HamsterList() {
-  const { selectedHamsterTokenId, setSelectedHamsterTokenId } = useHamsterContext();
   const { isWeb3Enabled, account } = useMoralis();
+  const { selectedHamsterTokenId, setSelectedHamsterTokenId } = useHamsterContext();
   const [hamsterList, setHamsterList] = useState([]);
 
-  async function updateUI() {
-    const newHamsterList = [];
-    for (let i = 0; i < 100; i++) {
-      try {
-        const { runContractFunction: ownerOf } = useWeb3Contract({
-          abi: hamsterNftAbi,
-          contractAddress: hamsterNftAddress,
-          functionName: "ownerOf",
-          params: { tokenId: i }, // Pass the tokenId as a parameter using the "params" option
-        });
-
-        const owner = await ownerOf();
-        console.log(`Hamster #${i} Owner: ${owner}`);
-        if (owner === account) {
-          newHamsterList.push({
-            id: i,
-            label: `#${i}`,
-            prefix: (
-              <Avatar
-                avatarKey={3}
-                borderRadius={7.5}
-                fontSize={8}
-                size={24}
-                image={`../images/nobg/${i}.png`}
-                theme="image"
-              />
-            ),
-          });
-        }
-      } catch (error) {
-        console.error(`Error fetching owner of Hamster #${i}`, error);
-      }
-    }
-    setHamsterList(newHamsterList);
-    console.log("Hamster List:", newHamsterList);
-  }
+  const ownerOf = useOwnerOf(); // Use the custom hook
 
   useEffect(() => {
+    async function updateUI() {
+      const newHamsterList = [];
+      for (let i = 0; i < 100; i++) {
+        try {
+          // Update the tokenId parameter for the ownerOf function with the current value of i
+          ownerOf.updateParams({ tokenId: i });
+
+          const owner = await ownerOf();
+          console.log(`Hamster #${i} Owner: ${owner}`);
+          if (owner === account) {
+            newHamsterList.push({
+              id: i,
+              label: `#${i}`,
+              prefix: (
+                <Avatar
+                  avatarKey={3}
+                  borderRadius={7.5}
+                  fontSize={8}
+                  size={24}
+                  image={`../images/nobg/${i}.png`}
+                  theme="image"
+                />
+              ),
+            });
+          }
+        } catch (error) {
+          console.error(`Error fetching owner of Hamster #${i}`, error);
+        }
+      }
+      setHamsterList(newHamsterList);
+      console.log("Hamster List:", newHamsterList);
+    }
+
     if (isWeb3Enabled) {
       updateUI();
     }
-  }, [isWeb3Enabled]);
+  }, [isWeb3Enabled, account, ownerOf]);
 
   async function handleHamsterSelect(tokenId) {
     setSelectedHamsterTokenId(tokenId);
