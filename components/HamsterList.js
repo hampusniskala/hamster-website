@@ -21,6 +21,7 @@ export default function HamsterList() {
     const newHamsterList = [];
     for (let i = 0; i < 100; i++) {
       const owner = await ownerOf(i);
+      console.log(owner, i)
       if (owner === account) {
         newHamsterList.push({
           id: i,

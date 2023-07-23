@@ -27,6 +27,7 @@ export default function EnemyList() {
 
     for (let i = 0; i < 100; i++) {
       const owner = await ownerOf(i);
+      console.log(owner, i)
       if (owner !== account && owner !== "0x0000000000000000000000000000000000000000") {
         enemies.push({
           id: i,
