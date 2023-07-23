@@ -12,21 +12,21 @@ export default function HamsterList() {
   const [hamsterList, setHamsterList] = useState([]);
 
   useEffect(() => {
-    if (isWeb3Enabled) {
-      updateUI();
+    if (isWeb3Enabled && account) {
+      updateHamsterList();
     }
   }, [isWeb3Enabled, account]);
 
-  async function updateUI() {
+  async function updateHamsterList() {
+    const contract = useWeb3Contract({
+      abi: hamsterNftAbi,
+      contractAddress: hamsterNftAddress,
+      functionName: "ownerOf",
+    });
+
     const newHamsterList = [];
     for (let i = 0; i < 100; i++) {
       try {
-        const contract = useWeb3Contract({
-          abi: hamsterNftAbi,
-          contractAddress: hamsterNftAddress,
-          functionName: "ownerOf",
-        });
-
         const owner = await contract.call({ tokenId: i });
         console.log(`Hamster #${i} Owner: ${owner}`);
         if (owner === account) {

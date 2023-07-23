@@ -12,21 +12,21 @@ export default function EnemyList() {
   const [enemyList, setEnemyList] = useState([]);
 
   useEffect(() => {
-    if (isWeb3Enabled && selectedHamsterTokenId !== null) {
-      updateEnemyList(selectedHamsterTokenId);
+    if (isWeb3Enabled && account && selectedHamsterTokenId !== null) {
+      updateEnemyList();
     }
-  }, [isWeb3Enabled, selectedHamsterTokenId]);
+  }, [isWeb3Enabled, account, selectedHamsterTokenId]);
 
-  async function updateEnemyList(selectedHamsterTokenId) {
+  async function updateEnemyList() {
+    const contract = useWeb3Contract({
+      abi: hamsterNftAbi,
+      contractAddress: hamsterNftAddress,
+      functionName: "ownerOf",
+    });
+
     const newEnemyList = [];
     for (let i = 0; i < 100; i++) {
       try {
-        const contract = useWeb3Contract({
-          abi: hamsterNftAbi,
-          contractAddress: hamsterNftAddress,
-          functionName: "ownerOf",
-        });
-
         const owner = await contract.call({ tokenId: i });
         console.log(`Hamster #${i} Owner: ${owner}`);
         if (owner !== account && owner !== "0x0000000000000000000000000000000000000000") {
