@@ -26,7 +26,7 @@ export default async function HamsterList({ tokenId }) {
         },
     })
     
-    enemyList = []
+    let enemyList = []
 
     for (let i = 0; i < 100; i++) {
     
