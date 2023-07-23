@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 const HamsterContext = createContext();
 
@@ -8,7 +8,12 @@ export function HamsterProvider({ children }) {
 
   return (
     <HamsterContext.Provider
-      value={{ selectedHamsterTokenId, setSelectedHamsterTokenId, selectedEnemyTokenId, setSelectedEnemyTokenId }}
+      value={{
+        selectedHamsterTokenId,
+        setSelectedHamsterTokenId,
+        selectedEnemyTokenId,
+        setSelectedEnemyTokenId,
+      }}
     >
       {children}
     </HamsterContext.Provider>
