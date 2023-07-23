@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useWeb3Contract } from "react-moralis";
 import { useHamsterContext } from "./HamsterContext";
 import { Dropdown, Avatar } from "web3uikit";
 import hamsterNftAbi from "../constants/BasicNft.json";

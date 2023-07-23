@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useWeb3Contract } from "react-moralis";
 import { useHamsterContext } from "./HamsterContext";
 import { Dropdown, Avatar } from "web3uikit";
 import hamsterNftAbi from "../constants/BasicNft.json";
@@ -18,14 +18,13 @@ export default function EnemyList() {
   }, [isWeb3Enabled, selectedHamsterTokenId]);
 
   async function updateEnemyList(selectedHamsterTokenId) {
-    const enemies = [];
-
+    const newEnemyList = [];
     for (let i = 0; i < 100; i++) {
       try {
         const owner = await getOwnerOf(i);
-        console.log(`Enemy #${i} Owner: ${owner}`);
+        console.log(`Hamster #${i} Owner: ${owner}`);
         if (owner !== account && owner !== "0x0000000000000000000000000000000000000000") {
-          enemies.push({
+          newEnemyList.push({
             id: i,
             label: `#${i}`,
             prefix: (
@@ -41,11 +40,10 @@ export default function EnemyList() {
           });
         }
       } catch (error) {
-        console.error(`Error fetching owner of Enemy #${i}`, error);
+        console.error(`Error fetching owner of Hamster #${i}`, error);
       }
     }
-
-    setEnemyList(enemies);
+    setEnemyList(newEnemyList);
   }
 
   async function getOwnerOf(tokenId) {
