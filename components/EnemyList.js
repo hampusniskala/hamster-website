@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useWeb3Contract, useMoralis } from "react-moralis";
 import { useHamsterContext } from "./HamsterContext";
 import { Dropdown, Avatar } from "web3uikit";
+import hamsterNftAbi from "../constants/BasicNft.json";
 const hamsterNftAddress = "0x5726c14663a1ead4a7d320e8a653c9710b2a2e89";
 
 export default function EnemyList() {
