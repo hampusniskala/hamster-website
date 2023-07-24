@@ -38,6 +38,17 @@ const EnemySelector = ({ hamsters, onChange }) => {
   );
 };
 
+const callOwnerOf = async (tokenId) => {
+    return useWeb3Contract({
+        abi: hamsterNftAbi,
+        contractAddress: hamsterNftAddress,
+        functionName: "ownerOf",
+        params: {
+            tokenId: tokenId,
+        },
+    })
+}
+
 
 
 const HamsterPage = () => {
@@ -56,14 +67,7 @@ const HamsterPage = () => {
         const allHamsters = [];
 
         for (let tokenId = 0; tokenId < 100; tokenId++) {
-          const owner = await useWeb3Contract({
-            abi: hamsterNftAbi,
-            contractAddress: hamsterNftAddress,
-            functionName: "ownerOf",
-            params: {
-                tokenId: tokenId,
-            },
-        })
+          const owner = await callOwnerOf(tokenId)
           console.log(i, owner)
           console.log(hamsterNftAbi)
 
