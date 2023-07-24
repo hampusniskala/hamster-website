@@ -3,70 +3,47 @@ import { useMoralis, useWeb3Contract } from 'react-moralis';
 import Image from 'next/image';
 
 import hamsterNftAbi from '../constants/BasicNft.json';
-import useOwnerOfToken from './useOwnerOfToken';
 
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
 
 const HamsterSelector = ({ hamsters, onChange }) => {
-  return (
-    <div>
-      <label htmlFor="selectHamster">Select Hamster:</label>
-      <select id="selectHamster" onChange={(e) => onChange(e.target.value)}>
-        <option value="">Select a hamster</option>
-        {hamsters.map((hamster) => (
-          <option key={hamster.tokenId} value={hamster.tokenId}>
-            {hamster.tokenId}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
+  // ... (rest of the code remains the same)
 };
 
 const EnemySelector = ({ hamsters, onChange }) => {
-  return (
-    <div>
-      <label htmlFor="selectEnemy">Select Enemy:</label>
-      <select id="selectEnemy" onChange={(e) => onChange(e.target.value)}>
-        <option value="">Select an enemy</option>
-        {hamsters.map((hamster) => (
-          <option key={hamster.tokenId} value={hamster.tokenId}>
-            {hamster.tokenId}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
+  // ... (rest of the code remains the same)
 };
 
 const useContractInstance = () => {
-  const { Moralis } = useMoralis();
-
-  const contractInstance = useMemo(() => {
-    if (Moralis) {
-      return new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
-    }
-    return null;
-  }, [Moralis]);
-
-  return contractInstance;
+  // ... (rest of the code remains the same)
 };
 
-const fetchHamsters = async (contract, user) => {
-  const ownedHamsters = [];
-  const allHamsters = [];
+const useOwnerOfToken = (contract, tokenId, user) => {
+  const { isWeb3Enabled } = useMoralis();
+  const [owner, setOwner] = useState('');
 
-  for (let tokenId = 0; tokenId < 100; tokenId++) {
-    const { owner } = useOwnerOfToken(tokenId); // Use the custom hook here
+  useEffect(() => {
+    const fetchOwner = async () => {
+      if (isWeb3Enabled && contract && user) {
+        const { runContractFunction } = useWeb3Contract({
+          abi: hamsterNftAbi,
+          contractAddress: hamsterNftAddress,
+          functionName: 'ownerOf',
+          params: {
+            tokenId: tokenId,
+          },
+        });
 
-    if (owner === user.attributes.ethAddress) {
-      ownedHamsters.push({ tokenId });
-    } else if (owner !== '0x0000000000000000000000000000000000000000') {
-      allHamsters.push({ tokenId });
-    }
-  }
+        const owner = await runContractFunction();
 
-  return { ownedHamsters, allHamsters };
+        setOwner(owner);
+      }
+    };
+
+    fetchOwner();
+  }, [isWeb3Enabled, contract, tokenId, user]);
+
+  return { owner };
 };
 
 const HamsterPage = () => {
@@ -79,15 +56,27 @@ const HamsterPage = () => {
   const [selectedEnemy, setSelectedEnemy] = useState('');
 
   useEffect(() => {
-    const loadHamsters = async () => {
-      if (isWeb3Enabled && contract) {
-        const { ownedHamsters, allHamsters } = await fetchHamsters(contract, user);
-        setOwnedHamsters(ownedHamsters);
-        setAllHamsters(allHamsters);
+    const fetchHamsters = async () => {
+      const ownedHamsters = [];
+      const allHamsters = [];
+
+      for (let tokenId = 0; tokenId < 100; tokenId++) {
+        const { owner } = await useOwnerOfToken(contract, tokenId, user); // Fetch owner using the custom hook here
+
+        if (owner === user.attributes.ethAddress) {
+          ownedHamsters.push({ tokenId });
+        } else if (owner !== '0x0000000000000000000000000000000000000000') {
+          allHamsters.push({ tokenId });
+        }
       }
+
+      setOwnedHamsters(ownedHamsters);
+      setAllHamsters(allHamsters);
     };
 
-    loadHamsters();
+    if (isWeb3Enabled && contract) {
+      fetchHamsters();
+    }
   }, [isWeb3Enabled, contract, user]);
 
   return (
