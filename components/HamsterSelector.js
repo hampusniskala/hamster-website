@@ -31,7 +31,7 @@ const HamsterPage = () => {
 
         for (let i = 0; i < totalSupply; i++) {
           const tokenId = i
-          const owner = <TokenOwnerComponent tokenId={tokenId} key={tokenId} />;
+          const owner = TokenOwnerComponent(tokenId)
           console.log(tokenId, owner);
 
           if (owner === userAddress) {
