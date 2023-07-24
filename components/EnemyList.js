@@ -6,18 +6,19 @@ import hamsterNftAbi from "../constants/BasicNft.json";
 
 const EnemyList = () => {
   const [tokenId, setTokenId] = useState(0);
-  const { user, Moralis, isInitialized } = useMoralis();
+  const { user, Moralis, isAuthenticated } = useMoralis();
   const maxTokenId = 99;
 
   // Function to fetch the enemy NFTs not owned by the zero address and not owned by the connected account
   const fetchEnemyNFTs = async () => {
     try {
+      if (!isAuthenticated || !user) return;
+
       const contract = new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
       const enemyNFTs = [];
 
       for (let i = 0; i <= maxTokenId; i++) {
         const owner = await contract.methods.ownerOf(i).call();
-        console.log("enemy", i, owner)
         if (owner.toLowerCase() !== '0x0000000000000000000000000000000000000000' && owner.toLowerCase() !== user.attributes.ethAddress.toLowerCase()) {
           enemyNFTs.push({ tokenId: i });
         }
@@ -35,12 +36,12 @@ const EnemyList = () => {
 
   const [enemyNFTs, setEnemyNFTs] = useState([]);
 
-  // Fetch enemy NFTs on Moralis initialization
+  // Fetch enemy NFTs on Moralis initialization and when the user changes
   useEffect(() => {
-    if (isInitialized && user) {
+    if (isAuthenticated) {
       fetchEnemyNFTs();
     }
-  }, [isInitialized, user]);
+  }, [isAuthenticated, user]);
 
   // Function to handle dropdown selection change
   const handleTokenChange = (event) => {

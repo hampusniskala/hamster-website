@@ -6,18 +6,19 @@ import hamsterNftAbi from "../constants/BasicNft.json";
 
 const HamsterList = () => {
   const [tokenId, setTokenId] = useState(0);
-  const { user, Moralis, isInitialized } = useMoralis();
+  const { user, Moralis, isAuthenticated } = useMoralis();
   const maxTokenId = 99;
 
   // Function to fetch the NFTs not owned by the connected account
   const fetchNFTs = async () => {
     try {
+      if (!isAuthenticated || !user) return;
+
       const contract = new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
       const ownedNFTs = [];
 
       for (let i = 0; i <= maxTokenId; i++) {
         const owner = await contract.methods.ownerOf(i).call();
-        console.log("hamster", i, owner)
         if (owner.toLowerCase() !== user.attributes.ethAddress.toLowerCase()) {
           ownedNFTs.push({ tokenId: i });
         }
@@ -35,12 +36,12 @@ const HamsterList = () => {
 
   const [ownedNFTs, setOwnedNFTs] = useState([]);
 
-  // Fetch NFTs on Moralis initialization
+  // Fetch NFTs on Moralis initialization and when the user changes
   useEffect(() => {
-    if (isInitialized && user) {
+    if (isAuthenticated) {
       fetchNFTs();
     }
-  }, [isInitialized, user]);
+  }, [isAuthenticated, user]);
 
   // Function to handle dropdown selection change
   const handleTokenChange = (event) => {
