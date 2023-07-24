@@ -5,50 +5,6 @@ import Image from 'next/image';
 
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
 
-const useOwnedHamsters = (contract) => {
-  const { user } = useMoralis();
-  const [ownedHamsters, setOwnedHamsters] = useState([]);
-
-  useEffect(() => {
-    const fetchOwnedHamsters = async () => {
-      const ownedHamsters = [];
-      for (let tokenId = 0; tokenId < 100; tokenId++) {
-        const owner = await contract.methods.ownerOf(tokenId).call();
-        if (owner === user.attributes.ethAddress) {
-          ownedHamsters.push({ tokenId });
-        }
-      }
-      setOwnedHamsters(ownedHamsters);
-    };
-
-    fetchOwnedHamsters();
-  }, [contract, user]);
-
-  return ownedHamsters;
-};
-
-const useAllHamsters = (contract) => {
-  const { user } = useMoralis();
-  const [allHamsters, setAllHamsters] = useState([]);
-
-  useEffect(() => {
-    const fetchAllHamsters = async () => {
-      const allHamsters = [];
-      for (let tokenId = 0; tokenId < 100; tokenId++) {
-        const owner = await contract.methods.ownerOf(tokenId).call();
-        if (owner !== user.attributes.ethAddress && owner !== '0x0000000000000000000000000000000000000000') {
-          allHamsters.push({ tokenId });
-        }
-      }
-      setAllHamsters(allHamsters);
-    };
-
-    fetchAllHamsters();
-  }, [contract, user]);
-
-  return allHamsters;
-};
-
 const HamsterSelector = ({ hamsters, onChange }) => {
   return (
     <div>
@@ -82,35 +38,55 @@ const EnemySelector = ({ hamsters, onChange }) => {
 };
 
 const useContractInstance = () => {
-    const { Moralis } = useMoralis();
-    console.log(Moralis);
-  
-    const contractInstance = useMemo(() => {
-      if (Moralis) {
-        return new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
-      }
-      return null;
-    }, [Moralis]);
-  
-    return contractInstance;
-  };
+  const { Moralis } = useMoralis();
 
-  const HamsterPage = () => {
-    const { user } = useMoralis();
-    const contract = useContractInstance();
+  const contractInstance = useMemo(() => {
+    if (Moralis) {
+      return new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
+    }
+    return null;
+  }, [Moralis]);
 
-  console.log(contract);
+  return contractInstance;
+};
 
-  // Ensure the 'ownerOf' function is present in the contract object
-  console.log(contract.methods.ownerOf);
-  
-  // Make sure the connected account has access to the contract and is on the correct network
-  console.log(user.attributes.ethAddress);
+const fetchHamsters = async (contract, user) => {
+  const ownedHamsters = [];
+  const allHamsters = [];
 
-  const ownedHamsters = useOwnedHamsters(contract);
-  const allHamsters = useAllHamsters(contract);
+  for (let tokenId = 0; tokenId < 100; tokenId++) {
+    const owner = await contract.methods.ownerOf(tokenId).call();
+
+    if (owner === user.attributes.ethAddress) {
+      ownedHamsters.push({ tokenId });
+    } else if (owner !== '0x0000000000000000000000000000000000000000') {
+      allHamsters.push({ tokenId });
+    }
+  }
+
+  return { ownedHamsters, allHamsters };
+};
+
+const HamsterPage = () => {
+  const { user, isWeb3Enabled } = useMoralis();
+  const contract = useContractInstance();
+
+  const [ownedHamsters, setOwnedHamsters] = useState([]);
+  const [allHamsters, setAllHamsters] = useState([]);
   const [selectedHamster, setSelectedHamster] = useState('');
   const [selectedEnemy, setSelectedEnemy] = useState('');
+
+  useEffect(() => {
+    const loadHamsters = async () => {
+      if (isWeb3Enabled && contract) {
+        const { ownedHamsters, allHamsters } = await fetchHamsters(contract, user);
+        setOwnedHamsters(ownedHamsters);
+        setAllHamsters(allHamsters);
+      }
+    };
+
+    loadHamsters();
+  }, [isWeb3Enabled, contract, user]);
 
   return (
     <div>
