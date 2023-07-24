@@ -8,7 +8,7 @@ import hamsterNftAbi from '../constants/BasicNft.json';
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
 
 const HamsterPage = () => {
-  const { user, Moralis, isWeb3Enabled } = useMoralis();
+  const { account, Moralis, isWeb3Enabled } = useMoralis();
   const [ownedTokenIds, setOwnedTokenIds] = useState([]);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const HamsterPage = () => {
           console.log("Web3 detected")
 
         // Get the connected wallet address
-        const userAddress = user.get('ethAddress');
+        const userAddress = account;
         console.log("address: ", userAddress)
 
         // Get the total supply of tokens
