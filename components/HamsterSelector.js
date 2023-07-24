@@ -7,6 +7,20 @@ import hamsterNftAbi from '../constants/BasicNft.json';
 
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
 
+const { runContractFunction: ownerOf } = useWeb3Contract({
+    abi: hamsterNftAbi,
+    contractAddress: hamsterNftAddress,
+    functionName: "ownerOf",
+    params: {
+        tokenId: tokenId,
+    },
+})
+
+async function getOwner(tokenId) {
+    const result = await ownerOf({ tokenId: randomTokenId });
+    return result
+}
+
 const HamsterPage = () => {
   const { account, Moralis, isWeb3Enabled } = useMoralis();
   const [ownedTokenIds, setOwnedTokenIds] = useState([]);
@@ -31,7 +45,7 @@ const HamsterPage = () => {
 
         for (let i = 0; i < totalSupply; i++) {
           const tokenId = i
-          const owner = TokenOwnerComponent(tokenId)
+          const owner = getOwner(tokenId)
           console.log(tokenId, owner);
 
           if (owner === userAddress) {
