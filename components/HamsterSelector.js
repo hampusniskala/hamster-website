@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useMoralis, useWeb3Contract } from 'react-moralis';
-import hamsterNftAbi from '../constants/BasicNft.json';
 import Image from 'next/image';
-import useOwnerOf from './useOwnerOf'; 
+
+import hamsterNftAbi from '../constants/BasicNft.json';
+import useOwnerOfToken from './useOwnerOfToken';
 
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
 
@@ -52,21 +53,21 @@ const useContractInstance = () => {
 };
 
 const fetchHamsters = async (contract, user) => {
-    const ownedHamsters = [];
-    const allHamsters = [];
-  
-    for (let tokenId = 0; tokenId < 100; tokenId++) {
-      const owner = await useOwnerOf(tokenId); // Await the result of useOwnerOf function
-  
-      if (owner === user.attributes.ethAddress) {
-        ownedHamsters.push({ tokenId });
-      } else if (owner !== '0x0000000000000000000000000000000000000000') {
-        allHamsters.push({ tokenId });
-      }
+  const ownedHamsters = [];
+  const allHamsters = [];
+
+  for (let tokenId = 0; tokenId < 100; tokenId++) {
+    const { owner } = useOwnerOfToken(tokenId); // Use the custom hook here
+
+    if (owner === user.attributes.ethAddress) {
+      ownedHamsters.push({ tokenId });
+    } else if (owner !== '0x0000000000000000000000000000000000000000') {
+      allHamsters.push({ tokenId });
     }
-  
-    return { ownedHamsters, allHamsters };
-  };
+  }
+
+  return { ownedHamsters, allHamsters };
+};
 
 const HamsterPage = () => {
   const { user, isWeb3Enabled } = useMoralis();
