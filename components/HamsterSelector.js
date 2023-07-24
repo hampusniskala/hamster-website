@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useMoralis } from 'react-moralis';
+import { useMoralis, useWeb3Contract } from 'react-moralis';
 import hamsterNftAbi from '../constants/BasicNft.json';
 import Image from 'next/image';
 
