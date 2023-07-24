@@ -17,7 +17,6 @@ const EnemyList = () => {
 
       for (let i = 0; i <= maxTokenId; i++) {
         const owner = await contract.methods.ownerOf(i).call();
-        console.log("enemy", i, owner)
         if (owner.toLowerCase() !== '0x0000000000000000000000000000000000000000' && owner.toLowerCase() !== user.attributes.ethAddress.toLowerCase()) {
           enemyNFTs.push({ tokenId: i });
         }
@@ -35,12 +34,10 @@ const EnemyList = () => {
 
   const [enemyNFTs, setEnemyNFTs] = useState([]);
 
-  // Fetch enemy NFTs on component mount or when the user changes
+  // Fetch enemy NFTs on component mount
   useEffect(() => {
-    if (user) {
-      fetchEnemyNFTs();
-    }
-  }, [user]);
+    fetchEnemyNFTs();
+  }, []); // Empty dependency array ensures it runs only on mount
 
   // Function to handle dropdown selection change
   const handleTokenChange = (event) => {

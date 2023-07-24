@@ -34,12 +34,10 @@ const HamsterList = () => {
 
   const [ownedNFTs, setOwnedNFTs] = useState([]);
 
-  // Fetch NFTs on component mount or when the user changes
+  // Fetch NFTs on component mount
   useEffect(() => {
-    if (user) {
-      fetchNFTs();
-    }
-  }, [user]);
+    fetchNFTs();
+  }, []); // Empty dependency array ensures it runs only on mount
 
   // Function to handle dropdown selection change
   const handleTokenChange = (event) => {
