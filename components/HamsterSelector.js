@@ -10,70 +10,70 @@ const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
 
 
 const HamsterPage = () => {
-
     const { runContractFunction: ownerOf } = useWeb3Contract({
-        abi: hamsterNftAbi,
-        contractAddress: hamsterNftAddress,
-        functionName: "ownerOf",
-        params: {
-            tokenId: tokenId,
-        },
-    })
-
-    async function getOwner(tokenId) {
-        const result = await ownerOf({ tokenId });
-        return result
-    }
-
-
-  const { account, Moralis, isWeb3Enabled } = useMoralis();
-  const [ownedTokenIds, setOwnedTokenIds] = useState([]);
-
-  useEffect(() => {
-      console.log("gello")
-      console.log(isWeb3Enabled)
-    const fetchOwnedTokenIds = async () => {
-      if (isWeb3Enabled) {
-          console.log("Web3 detected")
-
-        // Get the connected wallet address
-        const userAddress = account;
-        console.log("address: ", userAddress)
-
-        // Get the total supply of tokens
-        const totalSupply = 100
-        console.log("totalSupply: ", totalSupply)
-
-        // Fetch the token IDs owned by the user
-        const ownedTokenIds = [];
-
-        for (let i = 0; i < totalSupply; i++) {
-          const tokenId = i
-          const owner = await getOwner(tokenId)
-          console.log(tokenId, owner);
-
-          if (owner === userAddress) {
-            ownedTokenIds.push(tokenId);
+      abi: hamsterNftAbi,
+      contractAddress: hamsterNftAddress,
+      functionName: "ownerOf",
+      params: {
+        tokenId: null, // We'll replace this with a different value each time
+      },
+    });
+  
+    const { account, isWeb3Enabled } = useMoralis();
+    const [ownedTokenIds, setOwnedTokenIds] = useState([]);
+  
+    useEffect(() => {
+      const fetchOwnedTokenIds = async () => {
+        if (isWeb3Enabled) {
+          // Get the connected wallet address
+          const userAddress = account;
+  
+          // Get the total supply of tokens
+          const totalSupply = 100;
+  
+          // Fetch the token IDs owned by the user
+          const ownedTokenIds = [];
+  
+          const fetchOwners = [];
+          for (let i = 0; i < totalSupply; i++) {
+            const tokenId = i;
+            fetchOwners.push(getOwner(tokenId));
           }
+  
+          Promise.all(fetchOwners)
+            .then((owners) => {
+              for (let i = 0; i < totalSupply; i++) {
+                const owner = owners[i];
+                if (owner === userAddress) {
+                  ownedTokenIds.push(i);
+                }
+              }
+              setOwnedTokenIds(ownedTokenIds);
+            })
+            .catch((error) => {
+              console.error('Error fetching owners:', error);
+            });
         }
-
-        setOwnedTokenIds(ownedTokenIds);
-      }
-    };
-
-    fetchOwnedTokenIds();
-  }, [isWeb3Enabled]);
-
-  return (
-    <div>
-      <h1>Owned Token IDs</h1>
-      <ul>
-        {ownedTokenIds.map((tokenId) => (
-          <li key={tokenId}>{tokenId}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-export default HamsterPage;
+      };
+  
+      fetchOwnedTokenIds();
+    }, [account, isWeb3Enabled]);
+  
+    async function getOwner(tokenId) {
+      const result = await ownerOf({ tokenId });
+      return result;
+    }
+  
+    return (
+      <div>
+        <h1>Owned Token IDs</h1>
+        <ul>
+          {ownedTokenIds.map((tokenId) => (
+            <li key={tokenId}>{tokenId}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+  
+  export default HamsterPage;
