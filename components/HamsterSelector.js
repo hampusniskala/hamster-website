@@ -3,6 +3,7 @@ import { useMoralis, useWeb3Contract } from 'react-moralis';
 import Image from 'next/image';
 
 import hamsterNftAbi from '../constants/BasicNft.json';
+import useOwnerOfToken from './useOwnerOfToken';
 
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
 
@@ -38,18 +39,6 @@ const EnemySelector = ({ hamsters, onChange }) => {
   );
 };
 
-const callOwnerOf = async (tokenId) => {
-    return useWeb3Contract({
-        abi: hamsterNftAbi,
-        contractAddress: hamsterNftAddress,
-        functionName: "ownerOf",
-        params: {
-            tokenId: tokenId,
-        },
-    })
-}
-
-
 
 const HamsterPage = () => {
 
@@ -59,17 +48,24 @@ const HamsterPage = () => {
   const [selectedHamster, setSelectedHamster] = useState('');
   const [selectedEnemy, setSelectedEnemy] = useState('');
 
+  const [owners, setOwners] = useState({});
+
   useEffect(() => {
     const fetchHamsters = async () => {
       if (isWeb3Enabled) {
-          console.log("Web3 detected")
+        console.log("Web3 detected")
         const ownedHamsters = [];
         const allHamsters = [];
 
+        const fetchOwnerForTokenId = async (tokenId) => {
+          const { owner, error } = await useOwnerOfToken(tokenId);
+          console.log(tokenId, owner);
+          return { owner, error };
+        };
+
         for (let tokenId = 0; tokenId < 100; tokenId++) {
-          const owner = await callOwnerOf(tokenId)
-          console.log(i, owner)
-          console.log(hamsterNftAbi)
+          const { owner, error } = await fetchOwnerForTokenId(tokenId);
+          console.log(hamsterNftAbi);
 
           if (owner === account) {
             ownedHamsters.push({ tokenId });
