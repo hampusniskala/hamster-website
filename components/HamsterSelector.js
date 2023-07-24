@@ -42,6 +42,7 @@ const HamsterPage = () => {
             .then((owners) => {
               for (let i = 0; i < totalSupply; i++) {
                 const owner = owners[i];
+                console.log(i, owner)
                 if (owner === userAddress) {
                   ownedTokenIds.push(i);
                 }
