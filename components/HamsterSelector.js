@@ -13,12 +13,14 @@ const HamsterPage = () => {
       contractAddress: hamsterNftAddress,
       functionName: "ownerOf",
       params: {
-        tokenId: 0, // We'll replace this with a different value each time
+        tokenId: tokenId, // We'll replace this with a different value each time
       },
     });
   
     const { account, isWeb3Enabled } = useMoralis();
     const [ownedTokenIds, setOwnedTokenIds] = useState([]);
+
+    const [tokenId, setTokenId] = useState(0);
   
     useEffect(() => {
       const fetchOwnedTokenIds = async () => {
@@ -34,8 +36,8 @@ const HamsterPage = () => {
   
           const fetchOwners = [];
           for (let i = 0; i < totalSupply; i++) {
-            const tokenId = i;
-            fetchOwners.push(getOwner(tokenId));
+            setTokenId(i);
+            fetchOwners.push(getOwner());
           }
   
           Promise.all(fetchOwners)
@@ -59,14 +61,7 @@ const HamsterPage = () => {
     }, [account, isWeb3Enabled]);
   
     async function getOwner(tokenId) {
-      const result = await ownerOf({
-        abi: hamsterNftAbi,
-        contractAddress: hamsterNftAddress,
-        functionName: "ownerOf",
-        params: {
-          tokenId: tokenId, // We'll replace this with a different value each time
-        },
-      });
+      const result = await ownerOf();
       return result;
     }
   
