@@ -21,7 +21,7 @@ const HamsterPage = () => {
     })
 
     async function getOwner(tokenId) {
-        const result = await ownerOf({ tokenId: randomTokenId });
+        const result = await ownerOf({ tokenId });
         return result
     }
 
@@ -49,7 +49,7 @@ const HamsterPage = () => {
 
         for (let i = 0; i < totalSupply; i++) {
           const tokenId = i
-          const owner = getOwner(tokenId)
+          const owner = await getOwner(tokenId)
           console.log(tokenId, owner);
 
           if (owner === userAddress) {
