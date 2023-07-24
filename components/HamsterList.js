@@ -6,7 +6,7 @@ import hamsterNftAbi from "../constants/BasicNft.json";
 
 const HamsterList = () => {
   const [tokenId, setTokenId] = useState(0);
-  const { user, Moralis } = useMoralis();
+  const { user, Moralis, isInitialized } = useMoralis();
   const maxTokenId = 99;
 
   // Function to fetch the NFTs not owned by the connected account
@@ -17,6 +17,7 @@ const HamsterList = () => {
 
       for (let i = 0; i <= maxTokenId; i++) {
         const owner = await contract.methods.ownerOf(i).call();
+        console.log("hamster", i, owner)
         if (owner.toLowerCase() !== user.attributes.ethAddress.toLowerCase()) {
           ownedNFTs.push({ tokenId: i });
         }
@@ -34,10 +35,12 @@ const HamsterList = () => {
 
   const [ownedNFTs, setOwnedNFTs] = useState([]);
 
-  // Fetch NFTs on component mount
+  // Fetch NFTs on Moralis initialization
   useEffect(() => {
-    fetchNFTs();
-  }, []); // Empty dependency array ensures it runs only on mount
+    if (isInitialized && user) {
+      fetchNFTs();
+    }
+  }, [isInitialized, user]);
 
   // Function to handle dropdown selection change
   const handleTokenChange = (event) => {

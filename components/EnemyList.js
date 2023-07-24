@@ -6,7 +6,7 @@ import hamsterNftAbi from "../constants/BasicNft.json";
 
 const EnemyList = () => {
   const [tokenId, setTokenId] = useState(0);
-  const { user, Moralis } = useMoralis();
+  const { user, Moralis, isInitialized } = useMoralis();
   const maxTokenId = 99;
 
   // Function to fetch the enemy NFTs not owned by the zero address and not owned by the connected account
@@ -17,6 +17,7 @@ const EnemyList = () => {
 
       for (let i = 0; i <= maxTokenId; i++) {
         const owner = await contract.methods.ownerOf(i).call();
+        console.log("enemy", i, owner)
         if (owner.toLowerCase() !== '0x0000000000000000000000000000000000000000' && owner.toLowerCase() !== user.attributes.ethAddress.toLowerCase()) {
           enemyNFTs.push({ tokenId: i });
         }
@@ -34,10 +35,12 @@ const EnemyList = () => {
 
   const [enemyNFTs, setEnemyNFTs] = useState([]);
 
-  // Fetch enemy NFTs on component mount
+  // Fetch enemy NFTs on Moralis initialization
   useEffect(() => {
-    fetchEnemyNFTs();
-  }, []); // Empty dependency array ensures it runs only on mount
+    if (isInitialized && user) {
+      fetchEnemyNFTs();
+    }
+  }, [isInitialized, user]);
 
   // Function to handle dropdown selection change
   const handleTokenChange = (event) => {
