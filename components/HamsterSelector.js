@@ -83,6 +83,7 @@ const EnemySelector = ({ hamsters, onChange }) => {
 
 const useContractInstance = () => {
     const { Moralis } = useMoralis();
+    console.log(Moralis);
   
     const contractInstance = useMemo(() => {
       if (Moralis) {
