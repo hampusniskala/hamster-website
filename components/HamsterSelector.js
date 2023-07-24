@@ -14,12 +14,15 @@ const HamsterPage = () => {
       if (user) {
         // Create a Web3 contract instance
         const contract = new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
+        console.log("contract: ", contract)
 
         // Get the connected wallet address
         const userAddress = user.get('ethAddress');
+        console.log("address: ", userAddress)
 
         // Get the total supply of tokens
         const totalSupply = await contract.methods.totalSupply().call();
+        console.log("totalSupply: ", totalSupply)
 
         // Fetch the token IDs owned by the user
         const ownedTokenIds = [];
