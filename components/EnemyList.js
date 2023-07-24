@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useMoralis, useWeb3 } from 'react-moralis';
+import { useMoralis, useMoralisWeb3Api } from 'react-moralis';
 
 const hamsterNftAddress = "0x5726c14663a1ead4a7d320e8a653c9710b2a2e89";
 import hamsterNftAbi from "../constants/BasicNft.json";
@@ -7,7 +7,7 @@ import hamsterNftAbi from "../constants/BasicNft.json";
 const EnemyList = () => {
   const [tokenId, setTokenId] = useState(0);
   const { account, isAuthenticated } = useMoralis();
-  const web3 = useWeb3();
+  const { web3 } = useMoralisWeb3Api();
   const maxTokenId = 99;
 
   // Function to fetch the enemy NFTs not owned by the zero address and not owned by the connected account
