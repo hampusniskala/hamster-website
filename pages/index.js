@@ -5,6 +5,7 @@ import HamsterMintBox from "../components/HamsterMint";
 import HamsterBox from "../components/HamsterBox";
 import HamsterList from "../components/HamsterList";
 import EnemyList from "../components/EnemyList";
+import HamsterSelector from "../components/HamsterSelector";
 
 export default function Home() {
   return (
@@ -19,12 +20,7 @@ export default function Home() {
         <div className="py-4">
           <h1>Hamster Race!</h1>
         </div>
-        <HamsterList />
-        <EnemyList />
-        <div className="py-4">
-          <HamsterBox />
-          <HamsterBox />
-        </div>
+        <HamsterSelector></HamsterSelector>
       </HamsterProvider>
     </div>
   );
