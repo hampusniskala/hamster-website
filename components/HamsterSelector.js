@@ -42,18 +42,6 @@ const EnemySelector = ({ hamsters, onChange }) => {
 
 const HamsterPage = () => {
 
-    var i;
-
-    const { runContractFunction: ownerOf } = useWeb3Contract({
-        abi: hamsterNftAbi,
-        contractAddress: hamsterNftAddress,
-        functionName: "ownerOf",
-        params: {
-            tokenId: i,
-        },
-    })
-
-
   const { account, isWeb3Enabled } = useMoralis();
   const [ownedHamsters, setOwnedHamsters] = useState([]);
   const [allHamsters, setAllHamsters] = useState([]);
@@ -68,8 +56,14 @@ const HamsterPage = () => {
         const allHamsters = [];
 
         for (let tokenId = 0; tokenId < 100; tokenId++) {
-            i = tokenId;
-          const owner = await ownerOf()
+          const owner = await useWeb3Contract({
+            abi: hamsterNftAbi,
+            contractAddress: hamsterNftAddress,
+            functionName: "ownerOf",
+            params: {
+                tokenId: tokenId,
+            },
+        })
           console.log(i, owner)
           console.log(hamsterNftAbi)
 
