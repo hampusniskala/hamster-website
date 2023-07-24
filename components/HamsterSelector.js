@@ -6,12 +6,13 @@ import hamsterNftAbi from '../constants/BasicNft.json';
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
 
 const HamsterPage = () => {
-  const { user, Moralis } = useMoralis();
+  const { user, Moralis, isWeb3Enabled } = useMoralis();
   const [ownedTokenIds, setOwnedTokenIds] = useState([]);
 
   useEffect(() => {
     const fetchOwnedTokenIds = async () => {
-      if (user) {
+      if (isWeb3Enabled) {
+          console.log("Web3 detected")
         // Create a Web3 contract instance
         const contract = new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
         console.log("contract: ", contract)
