@@ -70,6 +70,7 @@ const HamsterPage = () => {
             i = tokenId;
           const owner = await ownerOf()
           console.log(i, owner)
+          console.log(hamsterNftAbi)
 
           if (owner === account) {
             ownedHamsters.push({ tokenId });
