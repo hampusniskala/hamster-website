@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useMoralis } from 'react-moralis';
+import { useMoralis, useWeb3Contract } from 'react-moralis';
 import Image from 'next/image';
 
 import hamsterNftAbi from '../constants/BasicNft.json';
 
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
+let i;
 
 const HamsterSelector = ({ hamsters, onChange }) => {
   return (
@@ -38,28 +39,18 @@ const EnemySelector = ({ hamsters, onChange }) => {
   );
 };
 
-const useContractInstance = () => {
-  const { Moralis } = useMoralis();
+const { runContractFunction: ownerOf } = useWeb3Contract({
+    abi: achievementsAbi,
+    contractAddress: achievementsAddress,
+    functionName: "balanceOf",
+    params: {
+        tokenId: i,
+    },
+})
 
-  const contractInstance = useMemo(() => {
-    if (Moralis) {
-      return new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
-    }
-    return null;
-  }, [Moralis]);
-
-  return contractInstance;
-};
-
-const fetchOwnerOfToken = async (contract, tokenId) => {
-  const owner = await contract.methods.ownerOf(tokenId).call();
-  return owner;
-};
 
 const HamsterPage = () => {
   const { user, isWeb3Enabled } = useMoralis();
-  const contract = useContractInstance();
-
   const [ownedHamsters, setOwnedHamsters] = useState([]);
   const [allHamsters, setAllHamsters] = useState([]);
   const [selectedHamster, setSelectedHamster] = useState('');
@@ -67,12 +58,13 @@ const HamsterPage = () => {
 
   useEffect(() => {
     const fetchHamsters = async () => {
-      if (isWeb3Enabled && contract) {
+      if (isWeb3Enabled) {
         const ownedHamsters = [];
         const allHamsters = [];
 
         for (let tokenId = 0; tokenId < 100; tokenId++) {
-          const owner = await fetchOwnerOfToken(contract, tokenId);
+            i = tokenId;
+          const owner = await ownerOf()
 
           if (owner === user.attributes.ethAddress) {
             ownedHamsters.push({ tokenId });
@@ -87,7 +79,7 @@ const HamsterPage = () => {
     };
 
     fetchHamsters();
-  }, [isWeb3Enabled, contract, user]);
+  }, [isWeb3Enabled, user]);
 
   return (
     <div>
