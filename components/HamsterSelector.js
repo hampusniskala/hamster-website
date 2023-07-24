@@ -36,7 +36,7 @@ const HamsterPage = () => {
   
           const fetchOwners = [];
           for (let i = 0; i < totalSupply; i++) {
-            setTokenId(i);
+            setTokenId(i); //Update tokenId
             fetchOwners.push(getOwner());
           }
   
