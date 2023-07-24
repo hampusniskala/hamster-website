@@ -94,7 +94,7 @@ const HamsterPage = () => {
       <HamsterSelector hamsters={ownedHamsters} onChange={setSelectedHamster} />
       {selectedHamster && (
         <Image
-          src={`/images/nobg/${selectedHamster}.png`}
+          src={`../images/nobg/${selectedHamster}.png`}
           alt={`Hamster ${selectedHamster}`}
           width={200}
           height={200}
@@ -103,7 +103,7 @@ const HamsterPage = () => {
       <EnemySelector hamsters={allHamsters} onChange={setSelectedEnemy} />
       {selectedEnemy && (
         <Image
-          src={`/images/nobg/${selectedEnemy}.png`}
+          src={`../images/nobg/${selectedEnemy}.png`}
           alt={`Enemy ${selectedEnemy}`}
           width={200}
           height={200}
