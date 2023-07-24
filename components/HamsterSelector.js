@@ -84,6 +84,15 @@ const EnemySelector = ({ hamsters, onChange }) => {
 const HamsterPage = () => {
   const { user } = useMoralis();
   const contract = useWeb3Contract(hamsterNftAddress, hamsterNftAbi);
+
+  console.log(contract);
+
+  // Ensure the 'ownerOf' function is present in the contract object
+  console.log(contract.methods.ownerOf);
+  
+  // Make sure the connected account has access to the contract and is on the correct network
+  console.log(user.attributes.ethAddress);
+
   const ownedHamsters = useOwnedHamsters(contract);
   const allHamsters = useAllHamsters(contract);
   const [selectedHamster, setSelectedHamster] = useState('');
