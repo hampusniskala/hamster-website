@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useMoralis, useWeb3Contract } from 'react-moralis';
-import useOwnerOfToken from './useOwnerOfToken';
-import TokenOwnerComponent from './TokenOwnerComponent';
 
 import hamsterNftAbi from '../constants/BasicNft.json';
 
