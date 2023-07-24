@@ -81,9 +81,22 @@ const EnemySelector = ({ hamsters, onChange }) => {
   );
 };
 
-const HamsterPage = () => {
-  const { user } = useMoralis();
-  const contract = useWeb3Contract(hamsterNftAddress, hamsterNftAbi);
+const useContractInstance = () => {
+    const { Moralis } = useMoralis();
+  
+    const contractInstance = useMemo(() => {
+      if (Moralis) {
+        return new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
+      }
+      return null;
+    }, [Moralis]);
+  
+    return contractInstance;
+  };
+
+  const HamsterPage = () => {
+    const { user } = useMoralis();
+    const contract = useContractInstance();
 
   console.log(contract);
 
