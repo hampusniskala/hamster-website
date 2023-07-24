@@ -62,12 +62,14 @@ const HamsterPage = () => {
   useEffect(() => {
     const fetchHamsters = async () => {
       if (isWeb3Enabled) {
+          console.log("Web3 detected")
         const ownedHamsters = [];
         const allHamsters = [];
 
         for (let tokenId = 0; tokenId < 100; tokenId++) {
             i = tokenId;
           const owner = await ownerOf()
+          console.log(i, owner)
 
           if (owner === account) {
             ownedHamsters.push({ tokenId });
