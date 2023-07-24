@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useWeb3Contract, useMoralis } from 'react-moralis';
+import { useMoralis } from 'react-moralis';
 import hamsterNftAbi from '../constants/BasicNft.json';
 import Image from 'next/image';
 
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
-//a
-// Custom React Hook to fetch owned hamsters
-const useOwnedHamsters = () => {
+
+const useOwnedHamsters = (contract) => {
   const { user } = useMoralis();
   const [ownedHamsters, setOwnedHamsters] = useState([]);
 
   useEffect(() => {
     const fetchOwnedHamsters = async () => {
-      const contract = useWeb3Contract(hamsterNftAddress, hamsterNftAbi);
       const ownedHamsters = [];
       for (let tokenId = 0; tokenId < 100; tokenId++) {
         const owner = await contract.methods.ownerOf(tokenId).call();
@@ -24,19 +22,17 @@ const useOwnedHamsters = () => {
     };
 
     fetchOwnedHamsters();
-  }, [user]);
+  }, [contract, user]);
 
   return ownedHamsters;
 };
 
-// Custom React Hook to fetch all hamsters
-const useAllHamsters = () => {
+const useAllHamsters = (contract) => {
   const { user } = useMoralis();
   const [allHamsters, setAllHamsters] = useState([]);
 
   useEffect(() => {
     const fetchAllHamsters = async () => {
-      const contract = useWeb3Contract(hamsterNftAddress, hamsterNftAbi);
       const allHamsters = [];
       for (let tokenId = 0; tokenId < 100; tokenId++) {
         const owner = await contract.methods.ownerOf(tokenId).call();
@@ -48,7 +44,7 @@ const useAllHamsters = () => {
     };
 
     fetchAllHamsters();
-  }, [user]);
+  }, [contract, user]);
 
   return allHamsters;
 };
@@ -86,8 +82,10 @@ const EnemySelector = ({ hamsters, onChange }) => {
 };
 
 const HamsterPage = () => {
-  const ownedHamsters = useOwnedHamsters();
-  const allHamsters = useAllHamsters();
+  const { user } = useMoralis();
+  const contract = useWeb3Contract(hamsterNftAddress, hamsterNftAbi);
+  const ownedHamsters = useOwnedHamsters(contract);
+  const allHamsters = useAllHamsters(contract);
   const [selectedHamster, setSelectedHamster] = useState('');
   const [selectedEnemy, setSelectedEnemy] = useState('');
 
