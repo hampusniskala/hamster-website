@@ -1,102 +1,53 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMoralis, useWeb3Contract } from 'react-moralis';
-import Image from 'next/image';
 
 import hamsterNftAbi from '../constants/BasicNft.json';
-import useOwnerOfToken from './useOwnerOfToken';
 
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
 
-const HamsterSelector = ({ hamsters, onChange }) => {
-  return (
-    <div>
-      <label htmlFor="selectHamster">Select Hamster:</label>
-      <select id="selectHamster" onChange={(e) => onChange(e.target.value)}>
-        <option value="">Select a hamster</option>
-        {hamsters.map((hamster) => (
-          <option key={hamster.tokenId} value={hamster.tokenId}>
-            {hamster.tokenId}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-};
-
-const EnemySelector = ({ hamsters, onChange }) => {
-  return (
-    <div>
-      <label htmlFor="selectEnemy">Select Enemy:</label>
-      <select id="selectEnemy" onChange={(e) => onChange(e.target.value)}>
-        <option value="">Select an enemy</option>
-        {hamsters.map((hamster) => (
-          <option key={hamster.tokenId} value={hamster.tokenId}>
-            {hamster.tokenId}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-};
-
-
 const HamsterPage = () => {
-
-  const { account, isWeb3Enabled } = useMoralis();
-  const [ownedHamsters, setOwnedHamsters] = useState([]);
-  const [allHamsters, setAllHamsters] = useState([]);
-  const [selectedHamster, setSelectedHamster] = useState('');
-  const [selectedEnemy, setSelectedEnemy] = useState('');
-
-  const [owners, setOwners] = useState({});
+  const { user, Moralis } = useMoralis();
+  const [ownedTokenIds, setOwnedTokenIds] = useState([]);
 
   useEffect(() => {
-    const fetchHamsters = async () => {
-      if (isWeb3Enabled) {
-        console.log("Web3 detected");
-        const ownedHamsters = [];
-        const allHamsters = [];
+    const fetchOwnedTokenIds = async () => {
+      if (user) {
+        // Create a Web3 contract instance
+        const contract = new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
 
-        for (let tokenId = 0; tokenId < 100; tokenId++) {
-          const { owner, error } = useOwnerOfToken(tokenId); // Use the custom hook here
-          console.log(tokenId, owner);
-          console.log(hamsterNftAbi);
+        // Get the connected wallet address
+        const userAddress = user.get('ethAddress');
 
-          if (owner === account) {
-            ownedHamsters.push({ tokenId });
-          } else if (owner !== '0x0000000000000000000000000000000000000000') {
-            allHamsters.push({ tokenId });
+        // Get the total supply of tokens
+        const totalSupply = await contract.methods.totalSupply().call();
+
+        // Fetch the token IDs owned by the user
+        const ownedTokenIds = [];
+
+        for (let i = 0; i < totalSupply; i++) {
+          const tokenId = await contract.methods.tokenByIndex(i).call();
+          const owner = await contract.methods.ownerOf(tokenId).call();
+
+          if (owner.toLowerCase() === userAddress.toLowerCase()) {
+            ownedTokenIds.push(tokenId);
           }
         }
 
-        setOwnedHamsters(ownedHamsters);
-        setAllHamsters(allHamsters);
+        setOwnedTokenIds(ownedTokenIds);
       }
     };
 
-    fetchHamsters();
-  }, [isWeb3Enabled, account]);
+    fetchOwnedTokenIds();
+  }, [user, Moralis]);
 
   return (
     <div>
-      <HamsterSelector hamsters={ownedHamsters} onChange={setSelectedHamster} />
-      {selectedHamster && (
-        <Image
-          src={`../images/nobg/${selectedHamster}.png`}
-          alt={`Hamster ${selectedHamster}`}
-          width={200}
-          height={200}
-        />
-      )}
-      <EnemySelector hamsters={allHamsters} onChange={setSelectedEnemy} />
-      {selectedEnemy && (
-        <Image
-          src={`../images/nobg/${selectedEnemy}.png`}
-          alt={`Enemy ${selectedEnemy}`}
-          width={200}
-          height={200}
-        />
-      )}
+      <h1>Owned Token IDs</h1>
+      <ul>
+        {ownedTokenIds.map((tokenId) => (
+          <li key={tokenId}>{tokenId}</li>
+        ))}
+      </ul>
     </div>
   );
 };
