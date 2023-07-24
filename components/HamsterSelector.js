@@ -13,7 +13,7 @@ const HamsterPage = () => {
       contractAddress: hamsterNftAddress,
       functionName: "ownerOf",
       params: {
-        tokenId: null, // We'll replace this with a different value each time
+        tokenId: 0, // We'll replace this with a different value each time
       },
     });
   
@@ -59,9 +59,14 @@ const HamsterPage = () => {
     }, [account, isWeb3Enabled]);
   
     async function getOwner(tokenId) {
-      const result = await ownerOf({params: {
-        tokenId: tokenId, // We'll replace this with a different value each time
-      }});
+      const result = await ownerOf({
+        abi: hamsterNftAbi,
+        contractAddress: hamsterNftAddress,
+        functionName: "ownerOf",
+        params: {
+          tokenId: tokenId, // We'll replace this with a different value each time
+        },
+      });
       return result;
     }
   
