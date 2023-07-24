@@ -10,6 +10,8 @@ const HamsterPage = () => {
   const [ownedTokenIds, setOwnedTokenIds] = useState([]);
 
   useEffect(() => {
+      console.log("gello")
+      console.log(isWeb3Enabled)
     const fetchOwnedTokenIds = async () => {
       if (isWeb3Enabled) {
           console.log("Web3 detected")
