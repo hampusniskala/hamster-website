@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMoralis, useWeb3Contract } from 'react-moralis';
 import useOwnerOfToken from './useOwnerOfToken';
+import TokenOwnerComponent from './TokenOwnerComponent';
 
 import hamsterNftAbi from '../constants/BasicNft.json';
 
@@ -30,7 +31,8 @@ const HamsterPage = () => {
 
         for (let i = 0; i < totalSupply; i++) {
           const tokenId = i
-          const owner = useOwnerOfToken(tokenId)
+          const owner = <TokenOwnerComponent tokenId={tokenId} key={tokenId} />;
+          console.log(tokenId, owner);
 
           if (owner.toLowerCase() === userAddress.toLowerCase()) {
             ownedTokenIds.push(tokenId);
