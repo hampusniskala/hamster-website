@@ -5,7 +5,6 @@ import Image from 'next/image';
 import hamsterNftAbi from '../constants/BasicNft.json';
 
 const hamsterNftAddress = '0x5726c14663a1ead4a7d320e8a653c9710b2a2e89';
-let i;
 
 const HamsterSelector = ({ hamsters, onChange }) => {
   return (
@@ -42,6 +41,8 @@ const EnemySelector = ({ hamsters, onChange }) => {
 
 
 const HamsterPage = () => {
+
+    var i;
 
     const { runContractFunction: ownerOf } = useWeb3Contract({
         abi: hamsterNftAbi,
