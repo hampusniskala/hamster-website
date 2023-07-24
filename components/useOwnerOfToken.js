@@ -16,7 +16,7 @@ const useOwnerOfToken = (tokenId) => {
     })
 
   // Fetch the owner synchronously
-  const owner = await ownerOf(tokenId)
+  const owner = ownerOf(tokenId)
 
   return {
     owner
