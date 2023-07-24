@@ -42,7 +42,7 @@ const EnemySelector = ({ hamsters, onChange }) => {
 const { runContractFunction: ownerOf } = useWeb3Contract({
     abi: achievementsAbi,
     contractAddress: achievementsAddress,
-    functionName: "balanceOf",
+    functionName: "ownerOf",
     params: {
         tokenId: i,
     },
