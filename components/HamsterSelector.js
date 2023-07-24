@@ -53,7 +53,7 @@ const HamsterPage = () => {
     })
 
 
-  const { user, isWeb3Enabled } = useMoralis();
+  const { account, isWeb3Enabled } = useMoralis();
   const [ownedHamsters, setOwnedHamsters] = useState([]);
   const [allHamsters, setAllHamsters] = useState([]);
   const [selectedHamster, setSelectedHamster] = useState('');
@@ -69,7 +69,7 @@ const HamsterPage = () => {
             i = tokenId;
           const owner = await ownerOf()
 
-          if (owner === user.attributes.ethAddress) {
+          if (owner === account) {
             ownedHamsters.push({ tokenId });
           } else if (owner !== '0x0000000000000000000000000000000000000000') {
             allHamsters.push({ tokenId });
@@ -82,7 +82,7 @@ const HamsterPage = () => {
     };
 
     fetchHamsters();
-  }, [isWeb3Enabled, user]);
+  }, [isWeb3Enabled, account]);
 
   return (
     <div>
