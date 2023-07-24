@@ -5,7 +5,7 @@ import useOwnerOfToken from './useOwnerOfToken';
 const TokenOwnerComponent = ({ tokenId }) => {
   const { owner } = useOwnerOfToken(tokenId);
 
-  return <div>{owner}</div>;
+  return owner;
 };
 
 export default TokenOwnerComponent;
