@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { useMoralis } from 'react-moralis';
+import { useMoralis, useWeb3 } from 'react-moralis';
 
 const hamsterNftAddress = "0x5726c14663a1ead4a7d320e8a653c9710b2a2e89";
 import hamsterNftAbi from "../constants/BasicNft.json";
 
 const EnemyList = () => {
   const [tokenId, setTokenId] = useState(0);
-  const { user, Moralis, isAuthenticated } = useMoralis();
+  const { account, isAuthenticated } = useMoralis();
+  const web3 = useWeb3();
   const maxTokenId = 99;
 
   // Function to fetch the enemy NFTs not owned by the zero address and not owned by the connected account
   const fetchEnemyNFTs = async () => {
     try {
-      if (!isAuthenticated || !user) return;
+      if (!isAuthenticated || !account || !web3) return;
 
-      const contract = new Moralis.web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
+      const contract = new web3.eth.Contract(hamsterNftAbi, hamsterNftAddress);
       const enemyNFTs = [];
 
       for (let i = 0; i <= maxTokenId; i++) {
         const owner = await contract.methods.ownerOf(i).call();
-        if (owner.toLowerCase() !== '0x0000000000000000000000000000000000000000' && owner.toLowerCase() !== user.attributes.ethAddress.toLowerCase()) {
+        if (owner.toLowerCase() !== '0x0000000000000000000000000000000000000000' && owner.toLowerCase() !== account.toLowerCase()) {
           enemyNFTs.push({ tokenId: i });
         }
       }
@@ -36,12 +37,10 @@ const EnemyList = () => {
 
   const [enemyNFTs, setEnemyNFTs] = useState([]);
 
-  // Fetch enemy NFTs on Moralis initialization and when the user changes
+  // Fetch enemy NFTs on Moralis initialization and when the account changes
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchEnemyNFTs();
-    }
-  }, [isAuthenticated, user]);
+    fetchEnemyNFTs();
+  }, [isAuthenticated, account, web3]);
 
   // Function to handle dropdown selection change
   const handleTokenChange = (event) => {
