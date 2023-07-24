@@ -39,17 +39,20 @@ const EnemySelector = ({ hamsters, onChange }) => {
   );
 };
 
-const { runContractFunction: ownerOf } = useWeb3Contract({
-    abi: achievementsAbi,
-    contractAddress: achievementsAddress,
-    functionName: "ownerOf",
-    params: {
-        tokenId: i,
-    },
-})
 
 
 const HamsterPage = () => {
+
+    const { runContractFunction: ownerOf } = useWeb3Contract({
+        abi: achievementsAbi,
+        contractAddress: achievementsAddress,
+        functionName: "ownerOf",
+        params: {
+            tokenId: i,
+        },
+    })
+
+
   const { user, isWeb3Enabled } = useMoralis();
   const [ownedHamsters, setOwnedHamsters] = useState([]);
   const [allHamsters, setAllHamsters] = useState([]);
