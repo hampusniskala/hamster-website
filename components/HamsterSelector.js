@@ -44,7 +44,7 @@ const HamsterPage = () => {
     };
 
     fetchOwnedTokenIds();
-  }, [user, Moralis]);
+  }, [isWeb3Enabled]);
 
   return (
     <div>
