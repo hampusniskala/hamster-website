@@ -59,7 +59,9 @@ const HamsterPage = () => {
     }, [account, isWeb3Enabled]);
   
     async function getOwner(tokenId) {
-      const result = await ownerOf({ tokenId });
+      const result = await ownerOf({params: {
+        tokenId: tokenId, // We'll replace this with a different value each time
+      }});
       return result;
     }
   
