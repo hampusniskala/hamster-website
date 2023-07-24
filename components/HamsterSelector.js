@@ -53,18 +53,13 @@ const HamsterPage = () => {
   useEffect(() => {
     const fetchHamsters = async () => {
       if (isWeb3Enabled) {
-        console.log("Web3 detected")
+        console.log("Web3 detected");
         const ownedHamsters = [];
         const allHamsters = [];
 
-        const fetchOwnerForTokenId = async (tokenId) => {
-          const { owner, error } = await useOwnerOfToken(tokenId);
-          console.log(tokenId, owner);
-          return { owner, error };
-        };
-
         for (let tokenId = 0; tokenId < 100; tokenId++) {
-          const { owner, error } = await fetchOwnerForTokenId(tokenId);
+          const { owner, error } = useOwnerOfToken(tokenId); // Use the custom hook here
+          console.log(tokenId, owner);
           console.log(hamsterNftAbi);
 
           if (owner === account) {
