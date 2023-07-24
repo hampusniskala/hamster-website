@@ -34,7 +34,7 @@ const HamsterPage = () => {
           const owner = <TokenOwnerComponent tokenId={tokenId} key={tokenId} />;
           console.log(tokenId, owner);
 
-          if (owner.toLowerCase() === userAddress.toLowerCase()) {
+          if (owner === userAddress) {
             ownedTokenIds.push(tokenId);
           }
         }
